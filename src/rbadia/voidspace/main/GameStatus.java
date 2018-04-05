@@ -18,7 +18,7 @@ public class GameStatus {
 	private int livesLeft;
 	private int level = 1;
 	
-	public GameStatus(){
+	public GameStatus() {
 		
 	}
 	
@@ -116,7 +116,7 @@ public class GameStatus {
 
 	/**
 	 * Returns the number lives left.
-	 * @return the number lifes left
+	 * @return the number lives left
 	 */
 	public synchronized int getLivesLeft() {
 		return livesLeft;

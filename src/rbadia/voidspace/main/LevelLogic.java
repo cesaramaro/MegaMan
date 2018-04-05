@@ -435,6 +435,15 @@ public class LevelLogic {
 		if(ih.isRightPressed()){
 			getLevelState().moveMegaManRight();
 		}
+
+		if (ih.isRPressed()) {
+		    status.setAsteroidsDestroyed(0);
+		    levelState.getMainFrame().getDestroyedValueLabel().setText(Long.toString(status.getAsteroidsDestroyed()));
+		}
+		
+		if (ih.isNPressed()) {
+		    levelState.doLevelWon();
+		}
 	}
 
 	public static void delay(long millis) {

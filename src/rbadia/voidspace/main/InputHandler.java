@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 /**
  * Handles user input events.
  */
-public class InputHandler implements KeyListener{
+public class InputHandler implements KeyListener {
 	private boolean leftIsPressed;
 	private boolean rightIsPressed;
 	private boolean downIsPressed;
@@ -18,6 +18,8 @@ public class InputHandler implements KeyListener{
 	private boolean mIsPressed;
 	private boolean sIsPressed;
 	private boolean iIsPressed;
+	private boolean nIsPressed; // Skip to the next level
+	private boolean rIsPressed; // Reset destroyed asteroid count
 
 	private LevelState levelState;
 	//private GameScreen gScreen;
@@ -29,7 +31,7 @@ public class InputHandler implements KeyListener{
 	 * Create a new input handler
 	 * @param gameLogic the game logic handler
 	 */
-	public InputHandler(){
+	public InputHandler() {
 		reset();
 	}
 
@@ -45,6 +47,8 @@ public class InputHandler implements KeyListener{
 		mIsPressed = false;
 		sIsPressed = false;
 		iIsPressed = false;
+		nIsPressed = false;
+		rIsPressed = false;
 	}
 
 	public boolean isLeftPressed() {
@@ -91,6 +95,14 @@ public class InputHandler implements KeyListener{
 		return iIsPressed;
 	}
 
+	public boolean isNPressed() {
+	    return nIsPressed;
+	}
+	
+	public boolean isRPressed() {
+	    return rIsPressed;
+	}
+	
 	/**
 	 * Handle a key input event.
 	 */
@@ -132,6 +144,12 @@ public class InputHandler implements KeyListener{
 		case KeyEvent.VK_I:
 			this.iIsPressed = true;
 			break;
+		case KeyEvent.VK_N:
+		    this.nIsPressed = true;
+		    break;
+		case KeyEvent.VK_R:
+		    this.rIsPressed = true;
+		    break;
 		}
 		e.consume();
 	}
@@ -175,6 +193,12 @@ public class InputHandler implements KeyListener{
 		case KeyEvent.VK_I:
 			this.iIsPressed = false;
 			break;
+	    case KeyEvent.VK_N:
+	        this.nIsPressed = false;
+	        break;
+	    case KeyEvent.VK_R:
+	        this.rIsPressed = false;
+	        break;
 		}
 		e.consume();
 	}
