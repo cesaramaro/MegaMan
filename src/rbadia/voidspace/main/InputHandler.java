@@ -17,7 +17,7 @@ public class InputHandler implements KeyListener {
 	private boolean qIsPressed;
 	private boolean mIsPressed;
 	private boolean sIsPressed;
-	private boolean iIsPressed;
+	private boolean iIsPressed; // Increase MegaMan's health by 1
 	private boolean nIsPressed; // Skip to the next level
 	private boolean rIsPressed; // Reset destroyed asteroid count
 
@@ -205,6 +205,7 @@ public class InputHandler implements KeyListener {
 
 	public void keyTyped(KeyEvent e) {
 		// not used
+	    // Try health thing here
 	}
 
 	public boolean getSpace(){

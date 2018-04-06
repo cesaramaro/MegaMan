@@ -372,7 +372,7 @@ public class LevelLogic {
 	public void handleKeysDuringPlay(InputHandler ih, LevelState levelState) {
 
 		GameStatus status = getLevelState().getGameStatus();
-
+		int nPressedCount = 2;
 		// fire bullet if space is pressed
 		if(ih.isSpacePressed()){
 			// fire only up to 5 bullets per second
@@ -442,15 +442,19 @@ public class LevelLogic {
 		}
 		
 		if (ih.isNPressed()) {
-		    levelState.doLevelWon();
+		    //levelState.doLevelWon();
+		}
+		
+		if (ih.isIPressed()) {
+		    // Increase Health
 		}
 	}
 
 	public static void delay(long millis) {
-		try{
+		try {
 			Thread.sleep(millis);
 		}
-		catch(Exception e){
+		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
