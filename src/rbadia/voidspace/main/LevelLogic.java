@@ -441,12 +441,9 @@ public class LevelLogic {
 		    levelState.getMainFrame().getDestroyedValueLabel().setText(Long.toString(status.getAsteroidsDestroyed()));
 		}
 		
-		if (ih.isNPressed()) {
-		    //levelState.doLevelWon();
-		}
-		
 		if (ih.isIPressed()) {
-		    // Increase Health
+		    ih.setisIPressed(false);
+	        status.setLivesLeft(status.getLivesLeft() + 1);
 		}
 	}
 
