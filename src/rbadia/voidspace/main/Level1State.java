@@ -142,7 +142,7 @@ public class Level1State extends LevelState {
 		getGameLogic().drawGetReady();
 		repaint();
 		LevelLogic.delay(2000);
-		//Changes music from "menu music" to "ingame music"
+		//Changes music from "menu music" to "in-game music"
 		MegaManMain.audioClip.close();
 		MegaManMain.audioFile = new File("audio/mainGame.wav");
 		try {
@@ -171,7 +171,7 @@ public class Level1State extends LevelState {
 	};
 
 	@Override
-	public void doLevelWon(){
+	public void doLevelWon() {
 		MegaManMain.audioClip.stop();
 		setCurrentState(LEVEL_WON);
 		getGameLogic().drawYouWin();
@@ -180,7 +180,7 @@ public class Level1State extends LevelState {
 	}
 
 	@Override
-	public void doGameOverScreen(){
+	public void doGameOverScreen() {
 		MegaManMain.audioClip.stop();
 		setCurrentState(GAME_OVER_SCREEN);
 		getGameLogic().drawGameOver();
@@ -190,7 +190,7 @@ public class Level1State extends LevelState {
 	}
 
 	@Override
-	public void doGameOver(){
+	public void doGameOver() {
 		this.getGameStatus().setGameOver(true);
 	}
 
@@ -208,12 +208,12 @@ public class Level1State extends LevelState {
 	/**
 	 * Update the game screen's backbuffer image.
 	 */
-	public void updateScreen(){
+	public void updateScreen() {
 		Graphics2D g2d = getGraphics2D();
 		GameStatus status = this.getGameStatus();
 
 		// save original font - for later use
-		if(this.originalFont == null){
+		if(this.originalFont == null) {
 			this.originalFont = g2d.getFont();
 			this.bigFont = originalFont;
 		}
@@ -240,8 +240,8 @@ public class Level1State extends LevelState {
 	}
 
 	protected void checkAsteroidFloorCollisions() {
-		for(int i=0; i<9; i++){
-			if(asteroid.intersects(floor[i])){
+		for(int i=0; i<9; i++) {
+			if(asteroid.intersects(floor[i])) {
 				removeAsteroid(asteroid);
 
 			}
@@ -250,7 +250,7 @@ public class Level1State extends LevelState {
 
 	protected void checkMegaManAsteroidCollisions() {
 		GameStatus status = getGameStatus();
-		if(asteroid.intersects(megaMan)){
+		if(asteroid.intersects(megaMan)) {
 			status.setLivesLeft(status.getLivesLeft() - 1);
 			removeAsteroid(asteroid);
 		}
@@ -544,7 +544,7 @@ public class Level1State extends LevelState {
 	public Platform[] newPlatforms(int n){
 		platforms = new Platform[n];
 		for(int i=0; i<n; i++){
-			this.platforms[i] = new Platform(0 , SCREEN_HEIGHT/2 + 140 - i*40);
+			this.platforms[i] = new Platform(0, SCREEN_HEIGHT/2 + 140 - i*40);
 		}
 		return platforms;
 
@@ -587,7 +587,7 @@ public class Level1State extends LevelState {
 	 * @param megaMan the megaMan
 	 */
 	public void moveMegaManLeft(){
-		if(megaMan.getX() - megaMan.getSpeed() >= 0){
+		if(megaMan.getX() - megaMan.getSpeed() >= 0) {
 			megaMan.translate(-megaMan.getSpeed(), 0);
 		}
 	}
@@ -596,14 +596,14 @@ public class Level1State extends LevelState {
 	 * Move the megaMan right
 	 * @param megaMan the megaMan
 	 */
-	public void moveMegaManRight(){
-		if(megaMan.getX() + megaMan.getSpeed() + megaMan.width < getWidth()){
+	public void moveMegaManRight() {
+		if(megaMan.getX() + megaMan.getSpeed() + megaMan.width < SCREEN_WIDTH) {
 			megaMan.translate(megaMan.getSpeed(), 0);
 		}
 	}
 
 	public void speedUpMegaMan() {
-		megaMan.setSpeed(megaMan.getDefaultSpeed() * 2 +1);
+		megaMan.setSpeed(megaMan.getDefaultSpeed() * 2 + 1);
 	}
 
 	public void slowDownMegaMan() {
