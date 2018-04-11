@@ -12,6 +12,7 @@ public class MegaMan extends GameObject {
 	
 	public static final int WIDTH = 42;
 	public static final int HEIGHT = 41;
+	public boolean lookingLeft = false;
 	//public static final int speed = DEFAULT_SPEED;
 	
 	public MegaMan(int xPos, int yPos){

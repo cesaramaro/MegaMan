@@ -24,8 +24,11 @@ import rbadia.voidspace.model.Platform;
  */
 public class GraphicsManager {
 	private BufferedImage megaManImg;
+	private BufferedImage megaManImgL;
 	private BufferedImage megaFallRImg;
+    private BufferedImage megaFallLImg;
 	private BufferedImage megaFireRImg;
+    private BufferedImage megaFireLImg;
 	private BufferedImage floorImg;
 	private BufferedImage platformImg;
 	private BufferedImage bulletImg;
@@ -42,8 +45,11 @@ public class GraphicsManager {
 		// load images
 		try {
 			this.megaManImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/megaMan3.png"));
+	        this.megaManImgL = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/megaMan3L.png"));
 			this.megaFallRImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/megaFallRight.png"));
 			this.megaFireRImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/megaFireRight.png"));
+	        this.megaFallLImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/megaFallLeft.png"));
+	        this.megaFireLImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/megaFireLeft.png"));
 			this.floorImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/megaFloor.png"));
 			this.platformImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/platform3.png"));
 			this.asteroidImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/asteroid.png"));
@@ -66,28 +72,25 @@ public class GraphicsManager {
 	 * @param observer object to be notified
 	 */
 
-	public void drawMegaMan (MegaMan megaMan, Graphics2D g2d, ImageObserver observer){
-		g2d.drawImage(megaManImg, megaMan.x, megaMan.y, observer);	
+	public void drawMegaMan(MegaMan megaMan, Graphics2D g2d, ImageObserver observer) {
+	    g2d.drawImage((megaMan.lookingLeft ? megaManImgL : megaManImg), megaMan.x, megaMan.y, observer);
 	}
 
-	public void drawMegaFallR (MegaMan megaMan, Graphics2D g2d, ImageObserver observer){
-		g2d.drawImage(megaFallRImg, megaMan.x, megaMan.y, observer);	
+	public void drawMegaFall(MegaMan megaMan, Graphics2D g2d, ImageObserver observer) {
+	    g2d.drawImage((megaMan.lookingLeft ? megaFallLImg : megaFallRImg), megaMan.x, megaMan.y, observer);
 	}
 
-	public void drawMegaFireR (MegaMan megaMan, Graphics2D g2d, ImageObserver observer){
-		g2d.drawImage(megaFireRImg, megaMan.x, megaMan.y, observer);	
+	public void drawMegaFire(MegaMan megaMan, Graphics2D g2d, ImageObserver observer) {
+	    g2d.drawImage((megaMan.lookingLeft ? megaFireLImg : megaFireRImg), megaMan.x, megaMan.y, observer);
 	}
 
-	public void drawFloor (Floor floor, Graphics2D g2d, ImageObserver observer, int i){
+	public void drawFloor(Floor floor, Graphics2D g2d, ImageObserver observer, int i) {
 			g2d.drawImage(floorImg, floor.x, floor.y, observer);				
 	}
-	public void drawPlatform(Platform platform, Graphics2D g2d, ImageObserver observer, int i){
+	
+	public void drawPlatform(Platform platform, Graphics2D g2d, ImageObserver observer, int i) {
 			g2d.drawImage(platformImg, platform.x , platform.y, observer);	
 	}
-	
-	public void drawPlatform2 (Platform platform, Graphics2D g2d, ImageObserver observer, int i){
-		g2d.drawImage(platformImg, platform.x , platform.y, observer);	
-}
 
 	/**
 	 * Draws a bullet image to the specified graphics canvas.
