@@ -1,12 +1,14 @@
 package rbadia.voidspace.main;
 
+import java.util.HashMap;
+
 import rbadia.voidspace.graphics.GraphicsManager;
 import rbadia.voidspace.model.Platform;
 import rbadia.voidspace.sounds.SoundManager;
 
 /**
  * Level very similar to LevelState1.  
- * Moving platforms to be added
+ * With moving platforms
  */
 public class Level3State extends Level1State {
 
@@ -26,7 +28,6 @@ public class Level3State extends Level1State {
         setCurrentState(getStartState());
     }
 
-    // TODO moving platforms
     @Override
     public Platform[] newPlatforms(int n) {
         platforms = new Platform[n];
@@ -37,5 +38,19 @@ public class Level3State extends Level1State {
                 k = k + 2;
         }
         return platforms;
+    }
+
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+        movePlatforms(); 
+    }
+
+    public void movePlatforms() {
+        for (Platform platform : platforms) {
+            if (platform.getMaxX() >= SCREEN_WIDTH) platform.reverse = true;
+            else if (platform.getX() <= 0) platform.reverse = false;
+            platform.translate((platform.reverse ? -1 : 1), 0);
+        }
     }
 }

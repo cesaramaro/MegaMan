@@ -8,6 +8,8 @@ public class Platform extends Rectangle {
 	private static final int WIDTH = 44;
 	private static final int HEIGHT = 4;
 
+    public boolean reverse = false;
+
 	public Platform(int xPos, int yPos) {
 		super(xPos, yPos, WIDTH, HEIGHT);
 	}
