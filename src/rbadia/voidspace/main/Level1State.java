@@ -398,30 +398,30 @@ public class Level1State extends LevelState {
 		return levelAsteroidsDestroyed >= 3;
 	}
 
-	protected boolean Gravity(){
+	protected boolean Gravity() {
 		MegaMan megaMan = this.getMegaMan();
 		Floor[] floor = this.getFloor();
 
-		for(int i=0; i<9; i++){
-			if((megaMan.getY() + megaMan.getHeight() -17 < SCREEN_HEIGHT - floor[i].getHeight()/2) 
-					&& Fall() == true){
+		for(int i=0; i<9; i++) {
+			if ((megaMan.getY() + megaMan.getHeight() -17 < SCREEN_HEIGHT - floor[i].getHeight() / 2) 
+					&& Fall() == true) {
 
-				megaMan.translate(0 , 2);
+				megaMan.translate(0, 2);
 				return true;
-
 			}
 		}
 		return false;
 	}
 
 	//Bullet fire pose
-	protected boolean Fire(){
+	protected boolean Fire() {
 		MegaMan megaMan = this.getMegaMan();
 		List<Bullet> bullets = this.getBullets();
-		for(int i=0; i<bullets.size(); i++){
+		
+		for(int i = 0; i < bullets.size(); i++) {
 			Bullet bullet = bullets.get(i);
-			if((bullet.getX() > megaMan.getX() + megaMan.getWidth()) && 
-					(bullet.getX() <= megaMan.getX() + megaMan.getWidth() + 60)){
+			if ((bullet.getX() > megaMan.getX() + megaMan.getWidth()) && 
+					(bullet.getX() <= megaMan.getX() + megaMan.getWidth() + 60)) {
 				return true;
 			}
 		}
@@ -429,7 +429,7 @@ public class Level1State extends LevelState {
 	}
 
 	//BigBullet fire pose
-	protected boolean Fire2(){
+	protected boolean Fire2() {
 		MegaMan megaMan = this.getMegaMan();
 		List<BigBullet> bigBullets = this.getBigBullets();
 		for(int i=0; i<bigBullets.size(); i++){
@@ -443,7 +443,7 @@ public class Level1State extends LevelState {
 	}
 
 	//Platform Gravity
-	public boolean Fall(){
+	public boolean Fall() {
 		MegaMan megaMan = this.getMegaMan(); 
 		Platform[] platforms = this.getPlatforms();
 		for(int i=0; i<getNumPlatforms(); i++){
@@ -475,11 +475,12 @@ public class Level1State extends LevelState {
 	/**
 	 * Fire a bullet from life.
 	 */
-	public void fireBullet(){
-		Bullet bullet = new Bullet(megaMan.x + megaMan.width - Bullet.WIDTH/2,
-				megaMan.y + megaMan.width/2 - Bullet.HEIGHT +2);
-		bullets.add(bullet);
-		this.getSoundManager().playBulletSound();
+	public void fireBullet() {
+	    Bullet bullet = new Bullet(megaMan.x + megaMan.width - Bullet.WIDTH/2,
+	            megaMan.y + megaMan.width/2 - Bullet.HEIGHT +2);
+	    if (megaMan.lookingLeft) bullet.movingLeft = true;
+	    bullets.add(bullet);
+	    this.getSoundManager().playBulletSound();
 	}
 
 	/**
@@ -499,14 +500,13 @@ public class Level1State extends LevelState {
 	 * @param bullet the bullet to move
 	 * @return if the bullet should be removed from screen
 	 */
-	public boolean moveBullet(Bullet bullet){
-		if(bullet.getY() - bullet.getSpeed() >= 0){
-			bullet.translate(bullet.getSpeed(), 0);
-			return false;
-		}
-		else{
-			return true;
-		}
+	public boolean moveBullet(Bullet bullet) {
+	    if (bullet.getX() >= SCREEN_WIDTH || bullet.getX() <= 0) return true;
+	    
+	    if (bullet.getY() - bullet.getSpeed() >= 0) {
+	        bullet.translate((bullet.movingLeft ? -bullet.getSpeed() : bullet.getSpeed()), 0);
+	        return false;
+	    } else { return true; }
 	}
 
 	/** Move a "Power Shot" bullet once fired.
@@ -546,7 +546,6 @@ public class Level1State extends LevelState {
 			this.platforms[i] = new Platform(0, SCREEN_HEIGHT/2 + 140 - i*40);
 		}
 		return platforms;
-
 	}
 
 	/**
