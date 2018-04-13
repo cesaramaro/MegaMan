@@ -2,7 +2,6 @@ package rbadia.voidspace.main;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.util.ArrayList;
 
 import rbadia.voidspace.graphics.GraphicsManager;
 import rbadia.voidspace.model.Asteroid;
@@ -18,8 +17,6 @@ import rbadia.voidspace.sounds.SoundManager;
 public class Level3State extends Level1State {
 
     private static final long serialVersionUID = 3L;
-    
-    private ArrayList<Asteroid> asteroidsOnScreen = new ArrayList<Asteroid>(2);
     
     protected long secondAsteroidTime;
     protected Asteroid secondAsteroid;
@@ -38,11 +35,13 @@ public class Level3State extends Level1State {
         setCurrentState(getStartState());
 
         newSecondAsteroid(this);
+        newAsteroid(this);
     }
 
     @Override
     public void updateScreen() {
         super.updateScreen();
+        
         movePlatforms();
         drawSecondAsteroid();
         checkBulletSecondAsteroidCollisions();
@@ -74,21 +73,38 @@ public class Level3State extends Level1State {
         return platforms;
     }   
     
+    
+    /**
+     * Create a new asteroid with a random speed
+     */
+    @Override
+    public Asteroid newAsteroid(Level1State screen) {
+        int xPos = (int) (SCREEN_WIDTH - Asteroid.WIDTH);
+        int yPos = rand.nextInt((int)(SCREEN_HEIGHT - Asteroid.HEIGHT- 32));
+        int speed = rand.nextInt(8);
+        
+        while (speed <= 0) speed = rand.nextInt(10);
+        asteroid = new Asteroid(xPos, yPos, speed);
+        return asteroid;
+    }
+    
     /*
      * Inefficient way of adding a second asteroid
      * but there's no time
      */
     
-    /**
+    /*
      * Create a second asteroid
      */
     public Asteroid newSecondAsteroid(Level1State screen) {
-        int xPos = (int) (SCREEN_WIDTH - Asteroid.WIDTH - 50);
+        int xPos = (int) (SCREEN_WIDTH - Asteroid.WIDTH);
         int yPos = rand.nextInt((int) (SCREEN_HEIGHT - Asteroid.HEIGHT- 32));
-        while(yPos == asteroid.getY()) {
-            yPos = rand.nextInt((int) (SCREEN_HEIGHT - Asteroid.HEIGHT- 32));
-        }
-        secondAsteroid = new Asteroid(xPos, yPos);
+        int speed = rand.nextInt(10);
+        
+        while (speed <= 0) speed = rand.nextInt(10);
+        while(yPos == asteroid.getY()) yPos = rand.nextInt((int) (SCREEN_HEIGHT - Asteroid.HEIGHT- 32));
+        
+        secondAsteroid = new Asteroid(xPos, yPos, speed);
         return secondAsteroid;
     }
     
@@ -98,7 +114,7 @@ public class Level3State extends Level1State {
     protected void drawSecondAsteroid() {
         Graphics2D g2d = getGraphics2D();
         GameStatus status = getGameStatus();
-        
+
         if ((secondAsteroid.getX() + secondAsteroid.getWidth() > 0)) {
             secondAsteroid.translate(-secondAsteroid.getSpeed(), 0);
             getGraphicsManager().drawAsteroid(secondAsteroid, g2d, this); 
@@ -146,10 +162,11 @@ public class Level3State extends Level1State {
      */
     protected void checkBigBulletSecondAsteroidCollisions() {
         GameStatus status = getGameStatus();
-        for (int i = 0; i < bigBullets.size(); i++) {
+        int bigBulletsSize = bigBullets.size();
+        for (int i = 0; i < bigBulletsSize; i++) {
             BigBullet bigBullet = bigBullets.get(i);
             if (secondAsteroid.intersects(bigBullet)) {
-                // increase asteroids destroyed count
+                // Increase asteroids destroyed count
                 status.setAsteroidsDestroyed(status.getAsteroidsDestroyed() + 100);
                 removeSecondAsteroid(secondAsteroid);
                 damage = 0;
@@ -163,15 +180,16 @@ public class Level3State extends Level1State {
      */
     protected void checkBulletSecondAsteroidCollisions() {
         GameStatus status = getGameStatus();
-        for(int i = 0; i < bullets.size(); i++){
+        int bulletSize = bullets.size();
+        for(int i = 0; i < bulletSize; i++) {
             Bullet bullet = bullets.get(i);
-            if (secondAsteroid.intersects(bullet)){
-                // increase asteroids destroyed count
+            if (secondAsteroid.intersects(bullet)) {
+                // Increase asteroids destroyed count
                 status.setAsteroidsDestroyed(status.getAsteroidsDestroyed() + 100);
                 removeSecondAsteroid(secondAsteroid);
                 levelAsteroidsDestroyed++;
                 damage = 0;
-                // remove bullet
+                // Remove bullet
                 bullets.remove(i);
                 break;
             }

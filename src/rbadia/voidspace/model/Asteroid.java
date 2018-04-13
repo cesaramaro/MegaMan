@@ -12,6 +12,11 @@ public class Asteroid extends GameObject {
 		super(xPos, yPos, Asteroid.WIDTH, Asteroid.HEIGHT);
 		this.setSpeed(DEFAULT_SPEED);
 	}
+	
+	public Asteroid(int xPos, int yPos, int speed) {
+	    super(xPos, yPos, Asteroid.WIDTH, Asteroid.HEIGHT);
+	    this.setSpeed(speed);
+	}
 
 	public int getDefaultSpeed(){
 		return DEFAULT_SPEED;
