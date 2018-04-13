@@ -476,8 +476,9 @@ public class Level1State extends LevelState {
 	 * Fire a bullet from life.
 	 */
 	public void fireBullet() {
-	    Bullet bullet = new Bullet(megaMan.x + megaMan.width - Bullet.WIDTH/2,
-	            megaMan.y + megaMan.width/2 - Bullet.HEIGHT +2);
+	    int xPos = (megaMan.x + megaMan.width - Bullet.WIDTH / 2) + 2;
+	    int yPos = megaMan.y + megaMan.width / 2 - Bullet.HEIGHT + 2;
+	    Bullet bullet = new Bullet(xPos, yPos);
 	    if (megaMan.lookingLeft) bullet.movingLeft = true;
 	    bullets.add(bullet);
 	    this.getSoundManager().playBulletSound();
@@ -486,11 +487,12 @@ public class Level1State extends LevelState {
 	/**
 	 * Fire the "Power Shot" bullet
 	 */
-	public void fireBigBullet(){
-		//BigBullet bigBullet = new BigBullet(megaMan);
-		int xPos = megaMan.x + megaMan.width - BigBullet.WIDTH / 2;
+	public void fireBigBullet() {
+		int xPos = (megaMan.x + megaMan.width - BigBullet.WIDTH / 2) + 2;
 		int yPos = megaMan.y + megaMan.width/2 - BigBullet.HEIGHT + 4;
-		BigBullet  bigBullet = new BigBullet(xPos, yPos);
+		
+	    BigBullet  bigBullet = new BigBullet(xPos, yPos);
+	    if (megaMan.lookingLeft) bigBullet.movingLeft = true;
 		bigBullets.add(bigBullet);
 		this.getSoundManager().playBulletSound();
 	}
@@ -513,14 +515,12 @@ public class Level1State extends LevelState {
 	 * @param bigBullet the bullet to move
 	 * @return if the bullet should be removed from screen
 	 */
-	public boolean moveBigBullet(BigBullet bigBullet){
-		if(bigBullet.getY() - bigBullet.getSpeed() >= 0){
-			bigBullet.translate(bigBullet.getSpeed(), 0);
+	public boolean moveBigBullet(BigBullet bigBullet) {
+	    if (bigBullet.getX() >= SCREEN_WIDTH || bigBullet.getX() <= 0) return true;
+		if (bigBullet.getY() - bigBullet.getSpeed() >= 0) {
+	        bigBullet.translate((bigBullet.movingLeft ? -bigBullet.getSpeed() : bigBullet.getSpeed()), 0);
 			return false;
-		}
-		else{
-			return true;
-		}
+		} else { return true; }
 	}
 
 	/**
