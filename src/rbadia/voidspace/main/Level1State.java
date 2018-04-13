@@ -395,7 +395,8 @@ public class Level1State extends LevelState {
 
 	@Override
 	public boolean isLevelWon() {
-		return levelAsteroidsDestroyed >= 3;
+	    GameStatus status = new GameStatus();
+	    return (levelAsteroidsDestroyed >= 3) || (status.getBossLivesLeft() <= 0);
 	}
 
 	protected boolean Gravity() {

@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.Timer;
 
 import rbadia.voidspace.graphics.GraphicsManager;
+import rbadia.voidspace.model.Asteroid;
 import rbadia.voidspace.model.BigBullet;
 import rbadia.voidspace.model.Boss;
 import rbadia.voidspace.model.BossBullet;
@@ -54,18 +55,88 @@ public class Level5State extends Level4State {
     protected void movePlatforms() {}
     
     @Override
-    public Platform[] newPlatforms(int n) {
-        platforms = new Platform[n];
-        for(int i = 0; i < n; i++) {
-            this.platforms[i] = new Platform(0,0);
-            if(i < 4) platforms[i].setLocation(50+ i * 50, SCREEN_HEIGHT/2 + 140 - i * 40);
-            if(i == 4) platforms[i].setLocation(50 +i * 50, SCREEN_HEIGHT/2 + 140 - 3 * 40);
-            if(i > 4){    
-                int k = 4;
-                platforms[i].setLocation(50 + i * 50, SCREEN_HEIGHT/2 + 20 + (i - k) * 40);
-                k = k + 2;
+    protected void drawAsteroid() {
+        Graphics2D g2d = getGraphics2D();
+        if ((asteroid.getX() + asteroid.getPixelsWide() >  0)) {
+            asteroid.translate(0, asteroid.getSpeed());
+            getGraphicsManager().drawAsteroid(asteroid, g2d, this); 
+        } else {
+            long currentTime = System.currentTimeMillis();
+            if((currentTime - lastAsteroidTime) > NEW_ASTEROID_DELAY) {
+                asteroid.setLocation(SCREEN_WIDTH - asteroid.getPixelsWide(),
+                        rand.nextInt(SCREEN_HEIGHT - asteroid.getPixelsTall() - 32));
+            } else {
+                // draw explosion
+                getGraphicsManager().drawAsteroidExplosion(asteroidExplosion, g2d, this);
+            }
+        }   
+    }
+    
+    /*
+     * Draw a second asteroid
+     */
+    protected void drawSecondAsteroid() {
+        Graphics2D g2d = getGraphics2D();
+        GameStatus status = getGameStatus();
+
+        if ((secondAsteroid.getX() + secondAsteroid.getWidth() > 0)) {
+            secondAsteroid.translate(0, secondAsteroid.getSpeed());
+            getGraphicsManager().drawAsteroid(secondAsteroid, g2d, this); 
+        } else {
+            long currentTime = System.currentTimeMillis();
+            if ((currentTime - secondAsteroidTime) > NEW_ASTEROID_DELAY) { 
+                // Draw a new asteroid
+                secondAsteroidTime = currentTime;
+                status.setNewAsteroid(false);
+                secondAsteroid.setLocation((int) (SCREEN_WIDTH - secondAsteroid.getPixelsWide()),
+                        (rand.nextInt((int) (SCREEN_HEIGHT - secondAsteroid.getPixelsTall() - 32))));
+            } else {
+                // Draw explosion
+                getGraphicsManager().drawAsteroidExplosion(asteroidExplosion, g2d, this);
             }
         }
+    }
+    
+    @Override
+    public Asteroid newAsteroid(Level1State screen) {
+        int xPos = rand.nextInt(SCREEN_WIDTH);
+        // rand.nextInt((int) (SCREEN_WIDTH - Asteroid.WIDTH - 32));
+        // (int) (SCREEN_HEIGHT - Asteroid.HEIGHT - 32));
+        int yPos = (int) (SCREEN_HEIGHT - Asteroid.HEIGHT - 32);
+        int speed = rand.nextInt(8);
+        
+        while (speed <= 0) speed = rand.nextInt(10);
+        asteroid = new Asteroid(50, 20, speed);
+        return asteroid;
+    }
+    
+    /*
+     * Create a second asteroid
+     */
+    @Override
+    public Asteroid newSecondAsteroid(Level1State screen) {
+        int xPos = rand.nextInt(SCREEN_WIDTH);
+        int yPos = (int) (SCREEN_HEIGHT - Asteroid.HEIGHT - 32);
+        int speed = rand.nextInt(10);
+        
+        while (speed <= 0) speed = rand.nextInt(10);
+        while(xPos == asteroid.getX()) xPos = rand.nextInt((int) (SCREEN_HEIGHT - Asteroid.HEIGHT - 32));
+        
+        secondAsteroid = new Asteroid(20, 20, speed);
+        return secondAsteroid;
+    }
+    
+    @Override
+    public Platform[] newPlatforms(int n) {
+        platforms = new Platform[3];
+        Platform platform;
+        platform = new Platform(50 + 4 * 50, SCREEN_HEIGHT / 2 + 140 - 3 * 40);
+        platforms[0] = platform;
+        platform = new Platform(50 + 5 * 50, SCREEN_HEIGHT / 2 + 140 - 3 * 40);
+        platforms[1] = platform;
+//            if(i < 4); //platforms[i].setLocation(50+ i * 50, SCREEN_HEIGHT/2 + 140 - i * 40);
+//            if(i == 4) platforms[i].setLocation(50 + i * 50, SCREEN_HEIGHT/2 + 140 - 3 * 40);
+//            if(i > 4) {}
         return platforms;
     }
     
@@ -173,8 +244,8 @@ public class Level5State extends Level4State {
      */
     protected void shootBossBullet() {
         int xPos = boss.x + boss.width - BossBullet.WIDTH / 2;
-        int yPos = boss.y + boss.width/2 - BossBullet.HEIGHT + 10;
-        BossBullet bossBullet = new BossBullet(xPos, yPos + 5);
+        int yPos = (boss.y + boss.width/2 - BossBullet.HEIGHT) + 10;
+        BossBullet bossBullet = new BossBullet(xPos, yPos + 10);
         bossBullets.add(bossBullet);
         this.getSoundManager().playBulletSound();
     }

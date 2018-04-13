@@ -53,7 +53,7 @@ public class Level3State extends Level1State {
     /*
      * Method to move the platforms from side to side
      */
-    public void movePlatforms() {
+    protected void movePlatforms() {
         for (Platform platform : platforms) {
             if (platform.getMaxX() >= SCREEN_WIDTH) platform.reverse = true;
             else if (platform.getX() <= 0) platform.reverse = false;
@@ -170,6 +170,8 @@ public class Level3State extends Level1State {
                 status.setAsteroidsDestroyed(status.getAsteroidsDestroyed() + 100);
                 removeSecondAsteroid(secondAsteroid);
                 damage = 0;
+                bigBullets.remove(i);
+                break;
             }
         }
     }

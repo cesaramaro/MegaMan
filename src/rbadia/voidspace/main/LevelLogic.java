@@ -319,7 +319,11 @@ public class LevelLogic {
 			if(status.getLivesLeft() == 0) {
 				levelState.setCurrentState(LevelState.GAME_OVER_SCREEN);
 			}
-			if(levelState.isLevelWon()) {
+			if (status.getBossLivesLeft() <= 0) {
+			    levelState.setCurrentState(levelState.LEVEL_WON);
+			    levelState.doLevelWon();
+			}
+			if (levelState.isLevelWon()) {
 				levelState.setCurrentState(LevelState.LEVEL_WON);
 			}
 			break;
