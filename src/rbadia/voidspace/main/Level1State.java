@@ -22,6 +22,7 @@ import rbadia.voidspace.model.Asteroid;
 import rbadia.voidspace.model.BigBullet;
 import rbadia.voidspace.model.Bullet;
 import rbadia.voidspace.model.Floor;
+import rbadia.voidspace.model.Lives;
 import rbadia.voidspace.model.MegaMan;
 import rbadia.voidspace.model.Platform;
 import rbadia.voidspace.sounds.SoundManager;
@@ -36,6 +37,7 @@ public class Level1State extends LevelState {
 	protected BufferedImage backBuffer;
 	protected MegaMan megaMan;
 	protected Asteroid asteroid;
+	protected Lives lives;
 	protected List<Bullet> bullets;
 	protected List<BigBullet> bigBullets;
 	protected Floor[] floor;	
@@ -85,6 +87,7 @@ public class Level1State extends LevelState {
 	public int getNumPlatforms()					{ return numPlatforms; 	}
 	public Platform[] getPlatforms()				{ return platforms; 		}
 	public Asteroid getAsteroid() 				{ return asteroid; 		}
+	public Lives getLives()						{ return lives;         }
 	public List<Bullet> getBullets() 			{ return bullets; 		}
 	public List<BigBullet> getBigBullets()		{ return bigBullets;   	}
 
@@ -108,6 +111,7 @@ public class Level1State extends LevelState {
 
 		status.setGameOver(false);
 		status.setNewAsteroid(false);
+		status.setNewLives(false);
 
 		// init the life and the asteroid
 		newMegaMan();
@@ -336,6 +340,18 @@ public class Level1State extends LevelState {
 			}
 		}
 	}
+	protected void drawLives(int numOfLives) {
+		Graphics2D g2d = getGraphics2D();
+		GameStatus status = getGameStatus();
+		if((lives.getX() + lives.getWidth() > 0)) {
+			lives.translate(-lives.getSpeed(), 0);
+			getGraphicsManager().drawLives(lives, g2d, this);
+			} else {
+			
+			}
+		
+		
+	}
 
 	protected void drawMegaMan() {
 		//draw one of three possible MegaMan poses according to situation
@@ -392,6 +408,7 @@ public class Level1State extends LevelState {
 			g2d.drawLine(x, y, x, y);
 		}
 	}
+	
 
 	@Override
 	public boolean isLevelWon() {
