@@ -11,10 +11,10 @@ import javax.swing.JOptionPane;
 import rbadia.voidspace.model.Asteroid;
 //import rbadia.voidspace.model.BigAsteroid;
 import rbadia.voidspace.model.BigBullet;
-//import rbadia.voidspace.model.Boss;
+import rbadia.voidspace.model.Boss;
 import rbadia.voidspace.model.Bullet;
 import rbadia.voidspace.model.Floor;
-//import rbadia.voidspace.model.BulletBoss;
+import rbadia.voidspace.model.BossBullet;
 //import rbadia.voidspace.model.BulletBoss2;
 import rbadia.voidspace.model.MegaMan;
 import rbadia.voidspace.model.Platform;
@@ -37,6 +37,9 @@ public class GraphicsManager {
 	private BufferedImage asteroidExplosionImg;
 	private BufferedImage megaManExplosionImg;
 	private BufferedImage bigAsteroidExplosionImg;
+	private BufferedImage megaManBoss;
+	private BufferedImage megaManBossL;
+	private BufferedImage bossBulletImg;
 
 	/**
 	 * Creates a new graphics manager and loads the game images.
@@ -56,6 +59,9 @@ public class GraphicsManager {
 			this.asteroidExplosionImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/asteroidExplosion.png"));
 			this.bulletImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/bullet.png"));
 			this.bigBulletImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/bigBullet.png"));
+			this.megaManBoss = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/megaManBoss.png"));
+			this.megaManBossL = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/megaManBossL.png"));
+	        this.bossBulletImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/bossBullet.png"));
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "The graphic files are either corrupt or missing.",
@@ -92,6 +98,26 @@ public class GraphicsManager {
 			g2d.drawImage(platformImg, platform.x , platform.y, observer);	
 	}
 
+    /**
+     * Draws a Boss image to the specified graphics canvas.
+     * @param MegaMan the ship to draw
+     * @param g2d the graphics canvas
+     * @param observer object to be notified
+     */
+	public void drawBoss(Boss boss, Graphics2D g2d, ImageObserver observer) {
+	    g2d.drawImage((boss.lookingLeft ? megaManBossL : megaManBoss), boss.x, boss.y, observer);
+	}
+	
+	 /**
+     * Draws a boss bullet image to the specified graphics canvas.
+     * @param bullet the bullet to draw
+     * @param g2d the graphics canvas
+     * @param observer object to be notified
+     */
+    public void drawBossBullet(BossBullet bullet, Graphics2D g2d, ImageObserver observer) {
+        g2d.drawImage(bossBulletImg, bullet.x, bullet.y, observer);
+    }
+    
 	/**
 	 * Draws a bullet image to the specified graphics canvas.
 	 * @param bullet the bullet to draw
