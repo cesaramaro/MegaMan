@@ -17,7 +17,7 @@ import rbadia.voidspace.model.Bullet;
 import rbadia.voidspace.model.Platform;
 import rbadia.voidspace.sounds.SoundManager;
 
-public class Level5State extends Level4State {
+public class Level5State extends Level3State {
 
     private static final long serialVersionUID = 5L;
     
@@ -51,9 +51,16 @@ public class Level5State extends Level4State {
         checkBigBulletBossCollision();
         checkBulletBossCollision();
     }
+    /*
+     * Disable moving platforms for this level
+     */
     @Override
     protected void movePlatforms() {}
     
+    /*
+     * Draws an asteroid
+     * going down.
+     */
     @Override
     protected void drawAsteroid() {
         Graphics2D g2d = getGraphics2D();
@@ -74,6 +81,7 @@ public class Level5State extends Level4State {
     
     /*
      * Draw a second asteroid
+     * going down.
      */
     protected void drawSecondAsteroid() {
         Graphics2D g2d = getGraphics2D();
@@ -97,6 +105,9 @@ public class Level5State extends Level4State {
         }
     }
     
+    /*
+     * Creates a new Asteroid
+     */
     @Override
     public Asteroid newAsteroid(Level1State screen) {
         int xPos = rand.nextInt(SCREEN_WIDTH);
@@ -126,17 +137,23 @@ public class Level5State extends Level4State {
         return secondAsteroid;
     }
     
+    /*
+     * Draws Level 5's platforms
+     * @return Platform Array of platforms
+     */
     @Override
-    public Platform[] newPlatforms(int n) {
-        platforms = new Platform[3];
-        Platform platform;
-        platform = new Platform(50 + 4 * 50, SCREEN_HEIGHT / 2 + 140 - 3 * 40);
-        platforms[0] = platform;
-        platform = new Platform(50 + 5 * 50, SCREEN_HEIGHT / 2 + 140 - 3 * 40);
-        platforms[1] = platform;
-//            if(i < 4); //platforms[i].setLocation(50+ i * 50, SCREEN_HEIGHT/2 + 140 - i * 40);
-//            if(i == 4) platforms[i].setLocation(50 + i * 50, SCREEN_HEIGHT/2 + 140 - 3 * 40);
-//            if(i > 4) {}
+    public Platform[] newPlatforms(int n){
+        platforms = new Platform[n];
+        for(int i=0; i<n; i++){
+            this.platforms[i] = new Platform(0,0);
+            if(i<4) platforms[i].setLocation(50+ i*50, SCREEN_HEIGHT/2 + 140 - i*40);
+            if(i==4) platforms[i].setLocation(50 +i*50, SCREEN_HEIGHT/2 + 140 - 3*40);
+            if(i>4){    
+                int k=4;
+                platforms[i].setLocation(50 + i*50, SCREEN_HEIGHT/2 + 20 + (i-k)*40 );
+                k=k+2;
+            }
+        }
         return platforms;
     }
     
@@ -144,7 +161,7 @@ public class Level5State extends Level4State {
      * Create a new boss
      */
     public Boss newBoss(Level5State screen) {
-        // Minus 80 so it's not located on the exact corner
+        // Minus 20 so it's not located on the exact corner
         int xPos = (int) (SCREEN_WIDTH - Boss.WIDTH - 20);
         int yPos = (int) (SCREEN_HEIGHT - Boss.HEIGHT - 20);
         
@@ -179,7 +196,7 @@ public class Level5State extends Level4State {
     
     /*
      * Checks for MegaMan and Boss' collision
-     * Removes 1 health if they intersect
+     * Removes 1 health to MegaMan if they intersect
      */
     public void checkMegaManBossCollision() {
         GameStatus status = getGameStatus();
@@ -229,7 +246,7 @@ public class Level5State extends Level4State {
     }
 
     /*
-     * Starts a timer so the boss shoots and moves every 2 seconds
+     * Starts a timer so the boss shoots and moves every second
      */
     protected void startBossTimer() {
         Timer shootTimer = new Timer(1000, new ActionListener() {

@@ -18,6 +18,7 @@ import rbadia.voidspace.model.BossBullet;
 //import rbadia.voidspace.model.BulletBoss2;
 import rbadia.voidspace.model.MegaMan;
 import rbadia.voidspace.model.Platform;
+import rbadia.voidspace.model.PowerUp;
 
 /**
  * Manages and draws game graphics and images.
@@ -62,7 +63,7 @@ public class GraphicsManager {
 			this.megaManBoss = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/megaManBoss.png"));
 			this.megaManBossL = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/megaManBossL.png"));
 	        this.bossBulletImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/bossBullet.png"));
-
+	        
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "The graphic files are either corrupt or missing.",
 					"MegaMan!!! - Fatal Error", JOptionPane.ERROR_MESSAGE);
