@@ -9,8 +9,11 @@ import java.util.List;
 import javax.swing.Timer;
 
 import rbadia.voidspace.graphics.GraphicsManager;
+import rbadia.voidspace.model.BigBullet;
 import rbadia.voidspace.model.Boss;
 import rbadia.voidspace.model.BossBullet;
+import rbadia.voidspace.model.Bullet;
+import rbadia.voidspace.model.Platform;
 import rbadia.voidspace.sounds.SoundManager;
 
 public class Level5State extends Level4State {
@@ -44,6 +47,26 @@ public class Level5State extends Level4State {
         drawBoss();
         drawBossBullets();
         checkMegaManBossCollision();
+        checkBigBulletBossCollision();
+        checkBulletBossCollision();
+    }
+    @Override
+    protected void movePlatforms() {}
+    
+    @Override
+    public Platform[] newPlatforms(int n) {
+        platforms = new Platform[n];
+        for(int i = 0; i < n; i++) {
+            this.platforms[i] = new Platform(0,0);
+            if(i < 4) platforms[i].setLocation(50+ i * 50, SCREEN_HEIGHT/2 + 140 - i * 40);
+            if(i == 4) platforms[i].setLocation(50 +i * 50, SCREEN_HEIGHT/2 + 140 - 3 * 40);
+            if(i > 4){    
+                int k = 4;
+                platforms[i].setLocation(50 + i * 50, SCREEN_HEIGHT/2 + 20 + (i - k) * 40);
+                k = k + 2;
+            }
+        }
+        return platforms;
     }
     
     /**
@@ -51,8 +74,8 @@ public class Level5State extends Level4State {
      */
     public Boss newBoss(Level5State screen) {
         // Minus 80 so it's not located on the exact corner
-        int xPos = (int) (SCREEN_WIDTH - Boss.WIDTH - 80);
-        int yPos = (int) (SCREEN_HEIGHT - Boss.HEIGHT - 80);
+        int xPos = (int) (SCREEN_WIDTH - Boss.WIDTH - 20);
+        int yPos = (int) (SCREEN_HEIGHT - Boss.HEIGHT - 20);
         
         boss = new Boss(xPos, yPos);
         return boss;
@@ -92,7 +115,45 @@ public class Level5State extends Level4State {
         
         if (boss.intersects(megaMan)) {
             status.setLivesLeft(status.getLivesLeft() - 1);
-            megaMan.translate(megaMan.x - 10, megaMan.y);
+        }
+    }
+    
+    /*
+     * Check collisions between a big bullet and the boss
+     */
+    protected void checkBulletBossCollision() {
+        GameStatus status = getGameStatus();
+        int bulletSize = bullets.size();
+        
+        for(int i = 0; i < bulletSize; i++) {
+            Bullet bullet = bullets.get(i);
+            if (boss.intersects(bullet)) {
+                System.out.println("BULLET INTERSECTED BOSS");
+                System.out.println("LIVES LEFT: " + status.getBossLivesLeft());
+                // Decrease boss' health
+                status.setBossLivesLeft(status.getBossLivesLeft() - 1);
+                // Remove bullet
+                bullets.remove(i);
+                break;
+            }
+        }
+    }
+    
+    /*
+     * Check collisions between a regular bullet and the boss
+     */
+    protected void checkBigBulletBossCollision() {
+        GameStatus status = getGameStatus();
+        int bigBulletsSize = bigBullets.size();
+        
+        for (int i = 0; i < bigBulletsSize; i++) {
+            BigBullet bigBullet = bigBullets.get(i);
+            if (boss.intersects(bigBullet)) {
+                // Decrease boss' health
+                status.setBossLivesLeft(status.getBossLivesLeft() - 1);
+                bullets.remove(i);
+                break;
+            }
         }
     }
 
@@ -100,7 +161,7 @@ public class Level5State extends Level4State {
      * Starts a timer so the boss shoots and moves every 2 seconds
      */
     protected void startBossTimer() {
-        Timer shootTimer = new Timer(2000, new ActionListener() {
+        Timer shootTimer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (getLevel() == 5) shootBossBullet();
             }
@@ -112,8 +173,8 @@ public class Level5State extends Level4State {
      */
     protected void shootBossBullet() {
         int xPos = boss.x + boss.width - BossBullet.WIDTH / 2;
-        int yPos = boss.y + boss.width/2 - BossBullet.HEIGHT + 4;
-        BossBullet bossBullet = new BossBullet(xPos, yPos);
+        int yPos = boss.y + boss.width/2 - BossBullet.HEIGHT + 10;
+        BossBullet bossBullet = new BossBullet(xPos, yPos + 5);
         bossBullets.add(bossBullet);
         this.getSoundManager().playBulletSound();
     }
