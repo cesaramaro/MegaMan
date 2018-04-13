@@ -17,6 +17,7 @@ public class GameStatus {
 
 	private int livesLeft;
 	private int level = 1;
+	private boolean newLives;
 	
 	public GameStatus() {
 		
@@ -132,6 +133,11 @@ public class GameStatus {
 
 	public void setLevel(int level) {
 		this.level = level;
+	}
+
+	public void setNewLives(boolean newLives) {
+		this.newLives = newLives;
+		
 	}
 
 }

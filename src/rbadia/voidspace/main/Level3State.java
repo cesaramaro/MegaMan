@@ -1,5 +1,6 @@
 package rbadia.voidspace.main;
 
+import java.awt.Graphics2D;
 import java.util.HashMap;
 
 import rbadia.voidspace.graphics.GraphicsManager;
@@ -20,6 +21,28 @@ public class Level3State extends Level1State {
             GraphicsManager graphicsMan, SoundManager soundMan) {
         super(level, frame, status, gameLogic, inputHandler, graphicsMan, soundMan);
     }
+    
+    protected void drawAsteroid() {
+		Graphics2D g2d = getGraphics2D();
+		if((asteroid.getX() + asteroid.getPixelsWide() >  0)) {
+			asteroid.translate(-asteroid.getSpeed(), asteroid.getSpeed()/2);
+			getGraphicsManager().drawAsteroid(asteroid, g2d, this);	
+		}
+		else {
+			long currentTime = System.currentTimeMillis();
+			if((currentTime - lastAsteroidTime) > NEW_ASTEROID_DELAY){
+
+				asteroid.setLocation(SCREEN_WIDTH - asteroid.getPixelsWide(),
+						rand.nextInt(SCREEN_HEIGHT - asteroid.getPixelsTall() - 32));
+			}
+			else {
+				// draw explosion
+				getGraphicsManager().drawAsteroidExplosion(asteroidExplosion, g2d, this);
+			
+			}
+		}	
+	}
+
 
     @Override
     public void doStart() { 

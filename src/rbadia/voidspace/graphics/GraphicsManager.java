@@ -14,6 +14,7 @@ import rbadia.voidspace.model.BigBullet;
 //import rbadia.voidspace.model.Boss;
 import rbadia.voidspace.model.Bullet;
 import rbadia.voidspace.model.Floor;
+import rbadia.voidspace.model.Lives;
 //import rbadia.voidspace.model.BulletBoss;
 //import rbadia.voidspace.model.BulletBoss2;
 import rbadia.voidspace.model.MegaMan;
@@ -37,6 +38,7 @@ public class GraphicsManager {
 	private BufferedImage asteroidExplosionImg;
 	private BufferedImage megaManExplosionImg;
 	private BufferedImage bigAsteroidExplosionImg;
+	private BufferedImage livesImg;
 
 	/**
 	 * Creates a new graphics manager and loads the game images.
@@ -56,6 +58,7 @@ public class GraphicsManager {
 			this.asteroidExplosionImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/asteroidExplosion.png"));
 			this.bulletImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/bullet.png"));
 			this.bigBulletImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/bigBullet.png"));
+			this.livesImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/pixeledheart.png"));
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "The graphic files are either corrupt or missing.",
@@ -144,6 +147,10 @@ public class GraphicsManager {
 
 	public void drawBigAsteroidExplosion(Rectangle bigAsteroidExplosion, Graphics2D g2d, ImageObserver observer) {
 		g2d.drawImage(bigAsteroidExplosionImg, bigAsteroidExplosion.x, bigAsteroidExplosion.y, observer);
+	}
+	
+	public void drawLives(Lives lives, Graphics2D g2d, ImageObserver observer) {
+		g2d.drawImage(livesImg, lives.x, lives.y, observer);
 	}
 
 
