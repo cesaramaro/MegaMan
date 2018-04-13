@@ -14,11 +14,11 @@ import rbadia.voidspace.model.BigBullet;
 import rbadia.voidspace.model.Boss;
 import rbadia.voidspace.model.Bullet;
 import rbadia.voidspace.model.Floor;
+import rbadia.voidspace.model.Lives;
 import rbadia.voidspace.model.BossBullet;
 //import rbadia.voidspace.model.BulletBoss2;
 import rbadia.voidspace.model.MegaMan;
 import rbadia.voidspace.model.Platform;
-import rbadia.voidspace.model.PowerUp;
 
 /**
  * Manages and draws game graphics and images.
