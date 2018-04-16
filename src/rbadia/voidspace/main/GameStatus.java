@@ -20,9 +20,7 @@ public class GameStatus {
 	private int level = 1;
 	private boolean newLives;
 	
-	public GameStatus() {
-		
-	}
+	public GameStatus() {}
 	
 	public synchronized boolean isGameOver() {
 		return gameOver;
@@ -154,7 +152,5 @@ public class GameStatus {
 
 	public void setNewLives(boolean newLives) {
 		this.newLives = newLives;
-		
 	}
-
 }

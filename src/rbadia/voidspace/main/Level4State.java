@@ -33,18 +33,29 @@ public class Level4State extends Level1State {
         checkMegaManLivesCollisions();
     }
 
-    public Lives newLives(Level1State screen) {
+    /*
+     * Creates a new power up at the
+     * specified coordinates
+     */
+    protected Lives newLives(Level1State screen) {
         int xPos = (int) (30);
         int yPos = (int) (360);
         lives = new Lives(xPos, yPos);
         return lives;
     }
     
+    /*
+     * Draws the lives power-up image to screen
+     */
     protected void drawLives() {
         Graphics2D g2d = getGraphics2D();
         getGraphicsManager().drawLives(lives, g2d, this);
     }
     
+    /*
+     * Checks for collisions between MegaMan and the
+     * lives power-up
+     */
     protected void checkMegaManLivesCollisions() {
         GameStatus status = getGameStatus();
         if (lives.intersects(megaMan)) {
@@ -53,15 +64,15 @@ public class Level4State extends Level1State {
         }
     }
 
-    private void removeLives(Lives lives) {
-        livesRemover = new Rectangle(
-                lives.x,
-                lives.y,
-                lives.getPixelsWide(),
-                lives.getPixelsTall());
+    /*
+     * Remove the specified live power-up from the screen
+     * @param Lives power up
+     */
+    protected void removeLives(Lives lives) {
+        livesRemover = new Rectangle(lives.x, lives.y,
+                lives.getPixelsWide(), lives.getPixelsTall());
         lives.setLocation(-lives.getPixelsWide(), -lives.getPixelsTall());
         this.getGameStatus().setNewLives(true);
         lastLivesTime = System.currentTimeMillis();
-
     }
 }

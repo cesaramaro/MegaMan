@@ -32,7 +32,6 @@ import rbadia.voidspace.sounds.SoundManager;
 public class Level1State extends LevelState {
 
 	private static final long serialVersionUID = 1L;
-	//protected GraphicsManager graphicsManager;
 	protected BufferedImage backBuffer;
 	protected MegaMan megaMan;
 	protected Asteroid asteroid;
@@ -99,10 +98,10 @@ public class Level1State extends LevelState {
 
 		setStartState(START_STATE);
 		setCurrentState(getStartState());
+		
 		// init game variables
 		bullets = new ArrayList<Bullet>();
 		bigBullets = new ArrayList<BigBullet>();
-		//numPlatforms = new Platform[5];
 
 		GameStatus status = this.getGameStatus();
 
@@ -227,7 +226,7 @@ public class Level1State extends LevelState {
 		drawAsteroid();
 		drawBullets();
 		drawBigBullets();
-		checkBullletAsteroidCollisions();
+		checkBulletAsteroidCollisions();
 		checkBigBulletAsteroidCollisions();
 		checkMegaManAsteroidCollisions();
 		checkAsteroidFloorCollisions();
@@ -240,15 +239,20 @@ public class Level1State extends LevelState {
 		getMainFrame().getLevelValueLabel().setText(Long.toString(status.getLevel()));
 	}
 
+	/*
+	 * Checks asteroid and floor collisions
+	 */
 	protected void checkAsteroidFloorCollisions() {
 		for (int i = 0; i < 9; i++) {
 			if (asteroid.intersects(floor[i])) {
 				removeAsteroid(asteroid);
-
 			}
 		}
 	}
 
+	/*
+	 * Checks MegaMan and asteroid collisions
+	 */
 	protected void checkMegaManAsteroidCollisions() {
 		GameStatus status = getGameStatus();
 		if (asteroid.intersects(megaMan)) {
@@ -257,6 +261,9 @@ public class Level1State extends LevelState {
 		}
 	}
 
+	/*
+	 * Checks for big bullet and asteroid collisions
+	 */
 	protected void checkBigBulletAsteroidCollisions() {
 		GameStatus status = getGameStatus();
 		for (int i = 0; i < bigBullets.size(); i++) {
@@ -270,11 +277,14 @@ public class Level1State extends LevelState {
 		}
 	}
 
-	protected void checkBullletAsteroidCollisions() {
+	/*
+	 * Checks for bullet and asteroid collisions
+	 */
+	protected void checkBulletAsteroidCollisions() {
 		GameStatus status = getGameStatus();
-		for(int i = 0; i < bullets.size(); i++){
+		for (int i = 0; i < bullets.size(); i++) {
 			Bullet bullet = bullets.get(i);
-			if (asteroid.intersects(bullet)){
+			if (asteroid.intersects(bullet)) {
 				// increase asteroids destroyed count
 				status.setAsteroidsDestroyed(status.getAsteroidsDestroyed() + 100);
 				removeAsteroid(asteroid);
@@ -286,7 +296,10 @@ public class Level1State extends LevelState {
 			}
 		}
 	}
-
+	
+    /*
+     * Draws (and removes) the big bullets on the screen
+     */
 	protected void drawBigBullets() {
 		Graphics2D g2d = getGraphics2D();
 		for (int i = 0; i < bigBullets.size(); i++) {
@@ -301,13 +314,16 @@ public class Level1State extends LevelState {
 		}
 	}
 
+	/*
+	 * Draws (and removes) the bullets on the screen
+	 */
 	protected void drawBullets() {
 		Graphics2D g2d = getGraphics2D();
 		for (int i = 0; i < bullets.size(); i++) {
 			Bullet bullet = bullets.get(i);
 			getGraphicsManager().drawBullet(bullet, g2d, this);
 
-			boolean remove =   this.moveBullet(bullet);
+			boolean remove = this.moveBullet(bullet);
 			if (remove) {
 				bullets.remove(i);
 				i--;
@@ -315,6 +331,9 @@ public class Level1State extends LevelState {
 		}
 	}
 
+	/*
+	 * Draws an Asteroid on the screen
+	 */
 	protected void drawAsteroid() {
 		Graphics2D g2d = getGraphics2D();
 		GameStatus status = getGameStatus();
@@ -323,56 +342,67 @@ public class Level1State extends LevelState {
 			getGraphicsManager().drawAsteroid(asteroid, g2d, this);	
 		} else {
 			long currentTime = System.currentTimeMillis();
-			if((currentTime - lastAsteroidTime) > NEW_ASTEROID_DELAY){ 
-				// draw a new asteroid
+			if ((currentTime - lastAsteroidTime) > NEW_ASTEROID_DELAY) { 
+				// Draws a new asteroid
 				lastAsteroidTime = currentTime;
 				status.setNewAsteroid(false);
 				asteroid.setLocation((int) (SCREEN_WIDTH - asteroid.getPixelsWide()),
 						(rand.nextInt((int) (SCREEN_HEIGHT - asteroid.getPixelsTall() - 32))));
-			}
-
-			else{
-				// draw explosion
+			} else {
+				// Draws an explosion
 				getGraphicsManager().drawAsteroidExplosion(asteroidExplosion, g2d, this);
 			}
 		}
 	}
 
+	/*
+	 * Draws MegaMan on the screen
+	 */
 	protected void drawMegaMan() {
 		//draw one of three possible MegaMan poses according to situation
 		Graphics2D g2d = getGraphics2D();
 		GameStatus status = getGameStatus();
-		if(!status.isNewMegaMan()) {
-			if((Gravity() == true) || ((Gravity() == true) && (Fire() == true || Fire2() == true))) {
+		if (!status.isNewMegaMan()) {
+			if ((Gravity() == true) || ((Gravity() == true) && (Fire() == true || Fire2() == true))) {
 				getGraphicsManager().drawMegaFall(megaMan, g2d, this);
 			}
 		}
 
-		if((Fire() == true || Fire2()== true) && (Gravity()==false)) {
+		if ((Fire() == true || Fire2() == true) && (Gravity() == false)) {
 			getGraphicsManager().drawMegaFire(megaMan, g2d, this);
 		}
 
-		if((Gravity()==false) && (Fire()==false) && (Fire2()==false)) {
+		if ((Gravity() == false) && (Fire() == false) && (Fire2() == false)) {
 			getGraphicsManager().drawMegaMan(megaMan, g2d, this);
 		}
 	}
 
+	/*
+	 * Draws the platforms on the screen
+	 */
 	protected void drawPlatforms() {
-		//draw platforms
 		Graphics2D g2d = getGraphics2D();
-		for(int i=0; i<getNumPlatforms(); i++){
+		int numPlatforms = getNumPlatforms();
+		
+		for (int i = 0; i < numPlatforms; i++) {
 			getGraphicsManager().drawPlatform(platforms[i], g2d, this, i);
 		}
 	}
 
+	/*
+	 * Draws the floor
+	 */
 	protected void drawFloor() {
 		//draw Floor
 		Graphics2D g2d = getGraphics2D();
-		for(int i=0; i<9; i++){
+		for (int i = 0; i < 9; i++) {
 			getGraphicsManager().drawFloor(floor[i], g2d, this, i);	
 		}
 	}
 
+	/*
+	 * Clears the screen
+	 */
 	protected void clearScreen() {
 		// clear screen
 		Graphics2D g2d = getGraphics2D();
@@ -387,25 +417,33 @@ public class Level1State extends LevelState {
 	protected void drawStars(int numberOfStars) {
 		Graphics2D g2d = getGraphics2D();
 		g2d.setColor(Color.WHITE);
-		for(int i=0; i<numberOfStars; i++){
+		for (int i = 0; i < numberOfStars; i++) {
 			int x = (int)(Math.random() * this.getWidth());
 			int y = (int)(Math.random() * this.getHeight());
 			g2d.drawLine(x, y, x, y);
 		}
 	}
 	
-
+	/*
+	 * Checks if the level is won
+	 * @return boolean
+	 */
 	@Override
 	public boolean isLevelWon() {
 	    GameStatus status = new GameStatus();
 	    return (levelAsteroidsDestroyed >= 3) || (status.getBossLivesLeft() <= 0);
 	}
 
+	/*
+	 * Deals with gravity, not related
+	 * to platforms
+	 * @return boolean
+	 */
 	protected boolean Gravity() {
 		MegaMan megaMan = this.getMegaMan();
 		Floor[] floor = this.getFloor();
 
-		for(int i=0; i<9; i++) {
+		for (int i = 0; i < 9; i++) {
 			if ((megaMan.getY() + megaMan.getHeight() -17 < SCREEN_HEIGHT - floor[i].getHeight() / 2) 
 					&& Fall() == true) {
 
@@ -416,12 +454,16 @@ public class Level1State extends LevelState {
 		return false;
 	}
 
-	//Bullet fire pose
+    /*
+     * Sets MegaMan's pose to shooting once
+     * the normal-sized bullet is fired
+     */
 	protected boolean Fire() {
 		MegaMan megaMan = this.getMegaMan();
 		List<Bullet> bullets = this.getBullets();
+		int bulletSize = bullets.size();
 		
-		for(int i = 0; i < bullets.size(); i++) {
+		for (int i = 0; i < bulletSize; i++) {
 			Bullet bullet = bullets.get(i);
 			if ((bullet.getX() > megaMan.getX() + megaMan.getWidth()) && 
 					(bullet.getX() <= megaMan.getX() + megaMan.getWidth() + 60)) {
@@ -431,47 +473,57 @@ public class Level1State extends LevelState {
 		return false;
 	}
 
-	//BigBullet fire pose
+	/*
+	 * Sets MegaMan's pose to shooting once
+	 * the big bullet is fired
+	 */
 	protected boolean Fire2() {
 		MegaMan megaMan = this.getMegaMan();
 		List<BigBullet> bigBullets = this.getBigBullets();
-		for(int i=0; i<bigBullets.size(); i++){
+		int bigBulletSize = bigBullets.size();
+		
+		for (int i = 0; i < bigBulletSize; i++) {
 			BigBullet bigBullet = bigBullets.get(i);
-			if((bigBullet.getX() > megaMan.getX() + megaMan.getWidth()) && 
-					(bigBullet.getX() <= megaMan.getX() + megaMan.getWidth() + 60)){
+			if ((bigBullet.getX() > megaMan.getX() + megaMan.getWidth()) && 
+					(bigBullet.getX() <= megaMan.getX() + megaMan.getWidth() + 60)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	//Platform Gravity
+	/*
+	 * Deals with platform gravity
+	 * @return boolean
+	 */
 	public boolean Fall() {
 		MegaMan megaMan = this.getMegaMan(); 
 		Platform[] platforms = this.getPlatforms();
-		for(int i=0; i<getNumPlatforms(); i++){
-			if((((platforms[i].getX() < megaMan.getX()) && (megaMan.getX()< platforms[i].getX() + platforms[i].getWidth()))
+		int numPlatforms = getNumPlatforms();
+		
+		for (int i = 0; i < numPlatforms; i++) {
+			if ((((platforms[i].getX() < megaMan.getX()) && (megaMan.getX()< platforms[i].getX() + platforms[i].getWidth()))
 					|| ((platforms[i].getX() < megaMan.getX() + megaMan.getWidth()) 
 							&& (megaMan.getX() + megaMan.getWidth()< platforms[i].getX() + platforms[i].getWidth())))
 					&& megaMan.getY() + megaMan.getHeight() == platforms[i].getY()
-					){
+					) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	public void removeAsteroid(Asteroid asteroid){
-		// "remove" asteroid
-		asteroidExplosion = new Rectangle(
-				asteroid.x,
-				asteroid.y,
-				asteroid.getPixelsWide(),
-				asteroid.getPixelsTall());
+	/*
+	 * Removes an asteroid from the game screen
+	 */
+	public void removeAsteroid(Asteroid asteroid) {
+		// "Remove" asteroid
+		asteroidExplosion = new Rectangle(asteroid.x, asteroid.y,
+				asteroid.getPixelsWide(), asteroid.getPixelsTall());
 		asteroid.setLocation(-asteroid.getPixelsWide(), -asteroid.getPixelsTall());
 		this.getGameStatus().setNewAsteroid(true);
 		lastAsteroidTime = System.currentTimeMillis();
-		// play asteroid explosion sound
+		// Play asteroid explosion sound
 		this.getSoundManager().playAsteroidExplosionSound();
 	}
 
@@ -481,6 +533,7 @@ public class Level1State extends LevelState {
 	public void fireBullet() {
 	    int xPos = (megaMan.x + megaMan.width - Bullet.WIDTH / 2) + 2;
 	    int yPos = megaMan.y + megaMan.width / 2 - Bullet.HEIGHT + 2;
+	    
 	    Bullet bullet = new Bullet(xPos, yPos);
 	    if (megaMan.lookingLeft) bullet.movingLeft = true;
 	    bullets.add(bullet);
@@ -507,7 +560,6 @@ public class Level1State extends LevelState {
 	 */
 	public boolean moveBullet(Bullet bullet) {
 	    if (bullet.getX() >= SCREEN_WIDTH || bullet.getX() <= 0) return true;
-	    
 	    if (bullet.getY() - bullet.getSpeed() >= 0) {
 	        bullet.translate((bullet.movingLeft ? -bullet.getSpeed() : bullet.getSpeed()), 0);
 	        return false;
@@ -529,24 +581,33 @@ public class Level1State extends LevelState {
 	/**
 	 * Create a new MegaMan (and replace current one).
 	 */
-	public MegaMan newMegaMan(){
+	public MegaMan newMegaMan() {
 		this.megaMan = new MegaMan((SCREEN_WIDTH - MegaMan.WIDTH) / 2, (SCREEN_HEIGHT - MegaMan.HEIGHT - MegaMan.Y_OFFSET) / 2);
 		return megaMan;
 	}
 
-	public Floor[] newFloor(Level1State screen, int n){
+	/*
+	 * Creates the floor
+	 * @param Level1State's screen
+	 * @param int
+	 */
+	public Floor[] newFloor(Level1State screen, int n) {
 		floor = new Floor[n];
-		for(int i=0; i<n; i++){
-			this.floor[i] = new Floor(0 + i * Floor.WIDTH, SCREEN_HEIGHT- Floor.HEIGHT/2);
+		for (int i = 0; i < n; i++) {
+			this.floor[i] = new Floor(0 + i * Floor.WIDTH, SCREEN_HEIGHT- Floor.HEIGHT / 2);
 		}
-
 		return floor;
 	}
 
-	public Platform[] newPlatforms(int n){
+	/*
+	 * Creates new platforms
+	 * @param int number of platforms to create
+	 * @return Array of platforms
+	 */
+	public Platform[] newPlatforms(int n) {
 		platforms = new Platform[n];
-		for(int i=0; i<n; i++){
-			this.platforms[i] = new Platform(0, SCREEN_HEIGHT/2 + 140 - i*40);
+		for (int i = 0; i < n; i++) {
+			this.platforms[i] = new Platform(0, SCREEN_HEIGHT/2 + 140 - i * 40);
 		}
 		return platforms;
 	}
@@ -587,9 +648,9 @@ public class Level1State extends LevelState {
 	 * Move the megaMan left
 	 * @param megaMan the megaMan
 	 */
-	public void moveMegaManLeft(){
+	public void moveMegaManLeft() {
 	    if (!megaMan.lookingLeft) megaMan.lookingLeft = true;
-		if(megaMan.getX() - megaMan.getSpeed() >= 0) {
+		if (megaMan.getX() - megaMan.getSpeed() >= 0) {
 			megaMan.translate(-megaMan.getSpeed(), 0);
 		}
 	}
@@ -600,15 +661,21 @@ public class Level1State extends LevelState {
 	 */
 	public void moveMegaManRight() {
 	    if (megaMan.lookingLeft) megaMan.lookingLeft = false;
-		if(megaMan.getX() + megaMan.getSpeed() + megaMan.width < SCREEN_WIDTH) {
+		if (megaMan.getX() + megaMan.getSpeed() + megaMan.width < SCREEN_WIDTH) {
 			megaMan.translate(megaMan.getSpeed(), 0);
 		}
 	}
 
+	/*
+	 * Increases MegaMan's speed
+	 */
 	public void speedUpMegaMan() {
 		megaMan.setSpeed(megaMan.getDefaultSpeed() * 2 + 1);
 	}
 
+	/*
+	 * Sets MegaMan's speed back to normal
+	 */
 	public void slowDownMegaMan() {
 		megaMan.setSpeed(megaMan.getDefaultSpeed());
 	}

@@ -31,18 +31,15 @@ public class Level2State extends Level1State {
 	@Override
 	protected void drawAsteroid() {
 		Graphics2D g2d = getGraphics2D();
-		if((asteroid.getX() + asteroid.getPixelsWide() >  0)) {
-			asteroid.translate(-asteroid.getSpeed(), asteroid.getSpeed()/2);
+		if ((asteroid.getX() + asteroid.getPixelsWide() >  0)) {
+			asteroid.translate(-asteroid.getSpeed(), asteroid.getSpeed() / 2);
 			getGraphicsManager().drawAsteroid(asteroid, g2d, this);	
-		}
-		else {
+		} else {
 			long currentTime = System.currentTimeMillis();
-			if((currentTime - lastAsteroidTime) > NEW_ASTEROID_DELAY){
-
+			if ((currentTime - lastAsteroidTime) > NEW_ASTEROID_DELAY) {
 				asteroid.setLocation(SCREEN_WIDTH - asteroid.getPixelsWide(),
 						rand.nextInt(SCREEN_HEIGHT - asteroid.getPixelsTall() - 32));
-			}
-			else {
+			} else {
 				// draw explosion
 				getGraphicsManager().drawAsteroidExplosion(asteroidExplosion, g2d, this);
 			}
@@ -50,16 +47,16 @@ public class Level2State extends Level1State {
 	}
 
 	@Override
-	public Platform[] newPlatforms(int n){
+	public Platform[] newPlatforms(int n) {
 		platforms = new Platform[n];
-		for(int i=0; i<n; i++){
-			this.platforms[i] = new Platform(0,0);
-			if(i<4)	platforms[i].setLocation(50+ i*50, SCREEN_HEIGHT/2 + 140 - i*40);
-			if(i==4) platforms[i].setLocation(50 +i*50, SCREEN_HEIGHT/2 + 140 - 3*40);
-			if(i>4){	
-				int k=4;
-				platforms[i].setLocation(50 + i*50, SCREEN_HEIGHT/2 + 20 + (i-k)*40 );
-				k=k+2;
+		for (int i = 0; i < n; i++) {
+			this.platforms[i] = new Platform(0, 0);
+			if (i < 4) platforms[i].setLocation(50 + i * 50, SCREEN_HEIGHT / 2 + 140 - i * 40);
+			if (i == 4) platforms[i].setLocation(50 + i * 50, SCREEN_HEIGHT / 2 + 140 - 3 * 40);
+			if (i > 4) {	
+				int k = 4;
+				platforms[i].setLocation(50 + i * 50, SCREEN_HEIGHT / 2 + 20 + (i - k) * 40 );
+				k = k + 2;
 			}
 		}
 		return platforms;

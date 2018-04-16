@@ -64,10 +64,10 @@ public class Level3State extends Level1State {
     @Override
     public Platform[] newPlatforms(int n) {
         platforms = new Platform[n];
-        for(int i = 0; i < n; i++) {
-            this.platforms[i] = new Platform(0,0);
+        for (int i = 0; i < n; i++) {
+            this.platforms[i] = new Platform(0, 0);
                 int k = 4;
-                platforms[i].setLocation(50 + i* 50, SCREEN_HEIGHT/2 + 20 + (i - k) * 40 );
+                platforms[i].setLocation(50 + i* 50, SCREEN_HEIGHT/2 + 20 + (i - k) * 40);
                 k = k + 2;
         }
         return platforms;
@@ -87,11 +87,6 @@ public class Level3State extends Level1State {
         asteroid = new Asteroid(xPos, yPos, speed);
         return asteroid;
     }
-    
-    /*
-     * Inefficient way of adding a second asteroid
-     * but there's no time
-     */
     
     /*
      * Create a second asteroid

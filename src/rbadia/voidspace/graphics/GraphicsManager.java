@@ -175,10 +175,13 @@ public class GraphicsManager {
 		g2d.drawImage(bigAsteroidExplosionImg, bigAsteroidExplosion.x, bigAsteroidExplosion.y, observer);
 	}
 	
+	/**
+	 * Draws a power-up image to the specified graphics canvas.
+	 * @param Lives the power-up to be drawn
+	 * @param g2d the graphics canvas
+	 * @param observer object to be notified
+	 */
 	public void drawLives(Lives lives, Graphics2D g2d, ImageObserver observer) {
 		g2d.drawImage(livesImg, lives.x, lives.y, observer);
 	}
-
-
-
 }

@@ -17,12 +17,11 @@ public class InputHandler implements KeyListener {
 	private boolean qIsPressed;
 	private boolean mIsPressed;
 	private boolean sIsPressed;
-	public boolean iIsPressed; // Increase MegaMan's health by 1
+	private boolean iIsPressed; // Increase MegaMan's health by 1
 	private boolean nIsPressed; // Skip to the next level
 	private boolean rIsPressed; // Reset destroyed asteroid count
 
 	private LevelState levelState;
-	//private GameScreen gScreen;
 	
 	public LevelState getLevelState() { return levelState; }
 	public void setLevelState(LevelState levelState) { this.levelState = levelState; }
@@ -149,9 +148,6 @@ public class InputHandler implements KeyListener {
 		case KeyEvent.VK_S:
 			this.sIsPressed = true;
 			break;
-//		case KeyEvent.VK_I:
-//			this.iIsPressed = true;
-//			break;
 		case KeyEvent.VK_N:
 		    this.nIsPressed = true;
 		    break;
@@ -213,10 +209,9 @@ public class InputHandler implements KeyListener {
 
 	public void keyTyped(KeyEvent e) {
 		// not used
-	    // Try increasing health here
 	}
 
-	public boolean getSpace(){
+	public boolean getSpace() {
 		return spaceIsPressed;
 	}
 

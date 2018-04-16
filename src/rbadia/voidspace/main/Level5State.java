@@ -64,7 +64,7 @@ public class Level5State extends Level3State {
     @Override
     protected void drawAsteroid() {
         Graphics2D g2d = getGraphics2D();
-        if ((asteroid.getX() + asteroid.getPixelsWide() >  0)) {
+        if ((asteroid.getX() + asteroid.getPixelsWide() > 0)) {
             asteroid.translate(0, asteroid.getSpeed());
             getGraphicsManager().drawAsteroid(asteroid, g2d, this); 
         } else {
@@ -142,16 +142,16 @@ public class Level5State extends Level3State {
      * @return Platform Array of platforms
      */
     @Override
-    public Platform[] newPlatforms(int n){
+    public Platform[] newPlatforms(int n) {
         platforms = new Platform[n];
-        for(int i=0; i<n; i++){
-            this.platforms[i] = new Platform(0,0);
-            if(i<4) platforms[i].setLocation(50+ i*50, SCREEN_HEIGHT/2 + 140 - i*40);
-            if(i==4) platforms[i].setLocation(50 +i*50, SCREEN_HEIGHT/2 + 140 - 3*40);
-            if(i>4){    
-                int k=4;
-                platforms[i].setLocation(50 + i*50, SCREEN_HEIGHT/2 + 20 + (i-k)*40 );
-                k=k+2;
+        for (int i = 0; i < n; i++) {
+            this.platforms[i] = new Platform(0, 0);
+            if (i < 4) platforms[i].setLocation(50 + i * 50, SCREEN_HEIGHT/2 + 140 - i * 40);
+            if (i == 4) platforms[i].setLocation(50 + i * 50, SCREEN_HEIGHT/2 + 140 - 3 * 40);
+            if (i > 4) {    
+                int k = 4;
+                platforms[i].setLocation(50 + i * 50, SCREEN_HEIGHT / 2 + 20 + (i - k) * 40);
+                k = k + 2;
             }
         }
         return platforms;
@@ -213,11 +213,9 @@ public class Level5State extends Level3State {
         GameStatus status = getGameStatus();
         int bulletSize = bullets.size();
         
-        for(int i = 0; i < bulletSize; i++) {
+        for (int i = 0; i < bulletSize; i++) {
             Bullet bullet = bullets.get(i);
             if (boss.intersects(bullet)) {
-                System.out.println("BULLET INTERSECTED BOSS");
-                System.out.println("LIVES LEFT: " + status.getBossLivesLeft());
                 // Decrease boss' health
                 status.setBossLivesLeft(status.getBossLivesLeft() - 1);
                 // Remove bullet
