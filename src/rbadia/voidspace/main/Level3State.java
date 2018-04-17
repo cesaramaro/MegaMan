@@ -97,18 +97,47 @@ public class Level3State extends Level1State {
         int speed = rand.nextInt(10);
         
         while (speed <= 0) speed = rand.nextInt(10);
-        while(yPos == asteroid.getY()) yPos = rand.nextInt((int) (SCREEN_HEIGHT - Asteroid.HEIGHT- 32));
+        while (yPos == asteroid.getY()) yPos = rand.nextInt((int) (SCREEN_HEIGHT - Asteroid.HEIGHT- 32));
         
         secondAsteroid = new Asteroid(xPos, yPos, speed);
         return secondAsteroid;
     }
     
     /*
-     * Draw a second asteroid
+     * Draw the first asteroid with a random speed
+     * every time it spawns
+     */
+    @Override
+    protected void drawAsteroid() {
+        Graphics2D g2d = getGraphics2D();
+        int speed = rand.nextInt(10);
+        while (speed <= 0) speed = rand.nextInt(10);
+        
+        if ((asteroid.getX() + asteroid.getPixelsWide() > 0)) {
+            asteroid.translate(-asteroid.getSpeed(), 0);
+            getGraphicsManager().drawAsteroid(asteroid, g2d, this); 
+        } else {
+            long currentTime = System.currentTimeMillis();
+            if ((currentTime - lastAsteroidTime) > NEW_ASTEROID_DELAY) {
+                asteroid.setLocation(SCREEN_WIDTH - asteroid.getPixelsWide(),
+                        rand.nextInt(SCREEN_HEIGHT - asteroid.getPixelsTall() - 32));
+                asteroid.setSpeed(speed);
+            } else {
+                // draw explosion
+                getGraphicsManager().drawAsteroidExplosion(asteroidExplosion, g2d, this);
+            }
+        }   
+    }
+    
+    /*
+     * Draw a second asteroid with a random speed
+     * every time it spawns
      */
     protected void drawSecondAsteroid() {
         Graphics2D g2d = getGraphics2D();
         GameStatus status = getGameStatus();
+        int speed = rand.nextInt(10);
+        while (speed <= 0) speed = rand.nextInt(10);
 
         if ((secondAsteroid.getX() + secondAsteroid.getWidth() > 0)) {
             secondAsteroid.translate(-secondAsteroid.getSpeed(), 0);
@@ -121,6 +150,7 @@ public class Level3State extends Level1State {
                 status.setNewAsteroid(false);
                 secondAsteroid.setLocation((int) (SCREEN_WIDTH - secondAsteroid.getPixelsWide()),
                         (rand.nextInt((int) (SCREEN_HEIGHT - secondAsteroid.getPixelsTall() - 32))));
+                secondAsteroid.setSpeed(speed);
             } else {
                 // Draw explosion
                 getGraphicsManager().drawAsteroidExplosion(asteroidExplosion, g2d, this);
@@ -197,11 +227,8 @@ public class Level3State extends Level1State {
      * Remove the second Asteroid
      */
     public void removeSecondAsteroid(Asteroid asteroid) {
-        asteroidExplosion = new Rectangle(
-                asteroid.x,
-                asteroid.y,
-                asteroid.getPixelsWide(),
-                asteroid.getPixelsTall());
+        asteroidExplosion = new Rectangle(asteroid.x, asteroid.y,
+                asteroid.getPixelsWide(), asteroid.getPixelsTall());
         asteroid.setLocation(-asteroid.getPixelsWide(), -asteroid.getPixelsTall());
         this.getGameStatus().setNewAsteroid(true);
         secondAsteroidTime = System.currentTimeMillis();

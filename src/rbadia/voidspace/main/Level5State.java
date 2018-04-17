@@ -52,6 +52,14 @@ public class Level5State extends Level4State {
         checkBigBulletBossCollision();
         checkBulletBossCollision();
     }
+    /*
+     * Disable megaMan-asteroid collisions check
+     */
+    protected void checkMegaManAsteroidCollisions() {}
+    protected void checkAsteroidFloorCollisions() {}
+    protected void drawAsteroid() {}
+    protected void checkBulletAsteroidCollisions() {}
+    protected void checkBigBulletAsteroidCollisions() {}
     
     @Override
     public Asteroid newAsteroid(Level1State screen) {
@@ -71,19 +79,10 @@ public class Level5State extends Level4State {
         return platforms;
     }
     
-    /*
-     * Disable megaMan-asteroid collisions check
-     */
-    protected void checkMegaManAsteroidCollisions() {}
-    protected void checkAsteroidFloorCollisions() {}
-    protected void drawAsteroid() {}
-    protected void checkBulletAsteroidCollisions() {}
-    protected void checkBigBulletAsteroidCollisions() {}
-    
     /**
      * Create a new boss
      */
-    public Boss newBoss(Level5State screen) {
+    protected Boss newBoss(Level5State screen) {
         // Minus 20 so it's not located on the exact corner
         int xPos = (int) (SCREEN_WIDTH - Boss.WIDTH - 20);
         int yPos = (int) (SCREEN_HEIGHT - Boss.HEIGHT - 20);
@@ -95,7 +94,7 @@ public class Level5State extends Level4State {
     /*
      * Draws the boss
      */
-    public void drawBoss() {
+    protected void drawBoss() {
         Graphics2D g2d = getGraphics2D();
         getGraphicsManager().drawBoss(boss, g2d, this);
     }
@@ -130,7 +129,7 @@ public class Level5State extends Level4State {
      * Checks for MegaMan and Boss' collision
      * Removes 1 health to MegaMan if they intersect
      */
-    public void checkMegaManBossCollision() {
+    protected void checkMegaManBossCollision() {
         GameStatus status = getGameStatus();
         
         if (boss.intersects(megaMan)) {
