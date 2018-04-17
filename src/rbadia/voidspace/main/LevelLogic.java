@@ -105,7 +105,7 @@ public class LevelLogic {
 	 */
 
 	//GAME LOOPS ON THE FIRST GAMESCREEN AND RESETS ALL VARIABLE COUNTERS
-	public void gameWon(){
+	public void gameWon() {
 		//status.setGameStarted(false);  //SENDS TO MAIN SCREEN/ IF COMMENTED OUT LOOPS THE GAME
 		getLevelState().getGameStatus().setGameWon(true);
 		levelState.doLevelWon();
@@ -220,7 +220,7 @@ public class LevelLogic {
 			this.bigFont = originalFont;
 		}
 
-		String gameTitleStr = "MegaMAN !!!";
+		String gameTitleStr = "MegaMan!";
 
 		Font currentFont = biggestFont == null? bigFont : biggestFont;
 		float fontSize = currentFont.getSize2D();
@@ -320,7 +320,7 @@ public class LevelLogic {
 				levelState.setCurrentState(LevelState.GAME_OVER_SCREEN);
 			}
 			if (status.getBossLivesLeft() <= 0) {
-			    levelState.setCurrentState(levelState.LEVEL_WON);
+			    levelState.setCurrentState(LevelState.LEVEL_WON);
 			    levelState.doLevelWon();
 			}
 			if (levelState.isLevelWon()) {
@@ -376,7 +376,6 @@ public class LevelLogic {
 	public void handleKeysDuringPlay(InputHandler ih, LevelState levelState) {
 
 		GameStatus status = getLevelState().getGameStatus();
-		int nPressedCount = 2;
 		// fire bullet if space is pressed
 		if(ih.isSpacePressed()){
 			// fire only up to 5 bullets per second

@@ -9,6 +9,7 @@ public class Boss extends GameObject {
     public static final int WIDTH = 100;
     public static final int HEIGHT = 102;
     public boolean lookingLeft = true;
+    public boolean goingDown = false;
     
     public Boss(int xPos, int yPos) {
         super(xPos, yPos, WIDTH, HEIGHT);
