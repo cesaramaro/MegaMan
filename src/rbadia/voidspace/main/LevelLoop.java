@@ -26,24 +26,16 @@ public class LevelLoop implements Runnable{
 	public void run() {
 
 		levelState.doStart();
-
-		while(!levelState.getGameStatus().isGameOver() && !levelState.isLevelWon() && !inputHandler.isNPressed()) {
+		while (!levelState.getGameStatus().isGameOver() 
+		        && !levelState.isLevelWon() 
+		        && !inputHandler.isNPressed() 
+		        && levelState.getGameStatus().getBossLivesLeft() > 0) {
 			
 			// update the game graphics and repaint screen
-
 			gameLogic.stateTransition(inputHandler, levelState);
 			levelState.repaint();
 			
 			LevelLogic.delay(1000/60);
-			
-//			try{
-//				// sleep/wait for 1/60th of a second,
-//				// for a resulting refresh rate of 60 frames per second (fps) 
-//				Thread.sleep(1000/60);
-//			}
-//			catch(Exception e){
-//				e.printStackTrace();
-//			}
 		}
 
 		if (levelState.isLevelWon() || inputHandler.isNPressed()) levelState.doLevelWon();
