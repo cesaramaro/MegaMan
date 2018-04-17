@@ -1,5 +1,6 @@
 # Project 2 - Definitely Not Megaman
-	This is a simpled-down version of MegaMan with 5 levels, the last being a boss level. The goal is to destroy at least 3 asteroids per level and at the end kill the boss, which as 6 lives.	
+	This is a simplified version of MegaMan with 5 levels, the last being a boss level. 
+	The goal is to destroy at least 3 asteroids per level and at the end kill the boss, which as 6 lives.	
 
 	Estimated Time spent: Not completely sure, but more than 15+ hours were spent working on the project.
 
@@ -31,7 +32,8 @@
 	Our biggest challenge was probably having two or more asteroids on screen at all times.
 	
     What was your favorite part of the project?
-    My favorite part of the project was whenever something we added worked, and if it didn't, fixing it and making sure it did.
+    My favorite part of the project was whenever something we added worked, and if it didn't, 
+    fixing it and making sure it did.
 
 
 ## License
