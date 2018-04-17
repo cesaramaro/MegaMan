@@ -218,7 +218,7 @@ public class Level1State extends LevelState {
 		}
 
 		clearScreen();
-		drawStars(50);
+		if(getLevel() < 3) drawStars(50);
 		drawFloor();
 		drawPlatforms();
 		drawMegaMan();
@@ -400,11 +400,13 @@ public class Level1State extends LevelState {
 
 	/*
 	 * Clears the screen
+	 * and sets a background image
 	 */
 	protected void clearScreen() {
 		Graphics2D g2d = getGraphics2D();
 		g2d.setPaint(Color.BLACK);
 		g2d.fillRect(0, 0, getSize().width, getSize().height);
+		if (getLevel() >= 3) getGraphicsManager().drawBackground(g2d, this);
 	}
 
 	/**

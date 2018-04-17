@@ -39,6 +39,7 @@ public class GraphicsManager {
 	private BufferedImage megaManBoss;
 	private BufferedImage bossBulletImg;
     private BufferedImage livesImg;
+    private BufferedImage backgroundImg;
 
 	/**
 	 * Creates a new graphics manager and loads the game images.
@@ -61,6 +62,7 @@ public class GraphicsManager {
 			this.megaManBoss = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/megaManBoss.png"));
 	        this.bossBulletImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/bossBullet.png"));
 	        this.livesImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/pixeledheart.png"));
+	        this.backgroundImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/background.png"));
 	        
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "The graphic files are either corrupt or missing.",
@@ -68,6 +70,15 @@ public class GraphicsManager {
 			e.printStackTrace();
 			System.exit(-1);
 		}
+	}
+
+	/**
+	 * Draws a background image to the specified graphics canvas.
+	 * @param g2d the graphics canvas
+	 * @param observer object to be notified
+	 */
+	public void drawBackground(Graphics2D g2d, ImageObserver observer) {
+	    g2d.drawImage(backgroundImg, 0, 0, observer);
 	}
 
 	/**
