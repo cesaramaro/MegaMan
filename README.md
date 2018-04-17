@@ -1,40 +1,37 @@
-# Project 1 - Definitely Not Megaman
-	Small project description	
+# Project 2 - Definitely Not Megaman
+	This is a simpled-down version of MegaMan with 5 levels, the last being a boss level. The goal is to destroy at least 3 asteroids per level and at the end kill the boss, which as 6 lives.	
 
-	Estimated Time spent: Spent total in hours
+	Estimated Time spent: Not completely sure, but more than 15+ hours were spent working on the project.
 
 
 
-## Team Name: 
+## Team Name: 54 65 61 6D
 
 ## Team Members: 
 
-	1. <Full Name> (<GitHubUsername>) - <UPRMEmail>
-	2. <Full Name> (<GitHubUsername>) - <UPRMEmail>
+	1. <César Amaro> (<cesaramaro>) - <cesar.amaro@upr.edu>
+	2. <Joseph Velilla> (<josephvelilla>) - <joseph.velilla@upr.edu>
 
 ## The following **required** functionality is implemented:
 
-- [x] This is a functionality is implemented.
+- [x] This functionality is implemented.
 
-- [ ] This is a functionality is not implemented.
-
-
+- [ ] This functionality is not implemented.
 
 ## The following **optional** features are implemented:
 
+- [ ] An implemented feauture.
 
-
-- [x] An implemented feauture.
-
-- [ ] A planned unimplemented feature.
+- [x] A planned unimplemented feature.
 
 ## Notes
 
 
-	What was your project's biggest challenge?
+    What was your project's biggest challenge?
+	Our biggest challenge was probably having two or more asteroids on screen at all times.
 	
-    What was your favorite part of the project
-
+    What was your favorite part of the project?
+    My favorite part of the project was whenever something we added worked, and if it didn't, fixing it and making sure it did.
 
 
 ## License
