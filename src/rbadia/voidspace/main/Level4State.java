@@ -72,7 +72,6 @@ public class Level4State extends Level1State {
         livesRemover = new Rectangle(lives.x, lives.y,
                 lives.getPixelsWide(), lives.getPixelsTall());
         lives.setLocation(-lives.getPixelsWide(), -lives.getPixelsTall());
-        this.getGameStatus().setNewLives(true);
         lastLivesTime = System.currentTimeMillis();
     }
 }

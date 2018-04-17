@@ -107,7 +107,6 @@ public class Level1State extends LevelState {
 
 		status.setGameOver(false);
 		status.setNewAsteroid(false);
-		status.setNewLives(false);
 
 		// init the life and the asteroid
 		newMegaMan();
@@ -367,13 +366,12 @@ public class Level1State extends LevelState {
 				getGraphicsManager().drawMegaFall(megaMan, g2d, this);
 			}
 		}
-
-		if ((Fire() == true || Fire2() == true) && (Gravity() == false)) {
-			getGraphicsManager().drawMegaFire(megaMan, g2d, this);
-		}
-
 		if ((Gravity() == false) && (Fire() == false) && (Fire2() == false)) {
-			getGraphicsManager().drawMegaMan(megaMan, g2d, this);
+		    getGraphicsManager().drawMegaMan(megaMan, g2d, this);
+		}
+		if ((Fire() == true || Fire2() == true) && (Gravity() == false)) {
+		    getGraphicsManager().drawMegaFire(megaMan, g2d, this);
+		    megaMan.firing = false;
 		}
 	}
 
@@ -404,7 +402,6 @@ public class Level1State extends LevelState {
 	 * Clears the screen
 	 */
 	protected void clearScreen() {
-		// clear screen
 		Graphics2D g2d = getGraphics2D();
 		g2d.setPaint(Color.BLACK);
 		g2d.fillRect(0, 0, getSize().width, getSize().height);
@@ -463,6 +460,8 @@ public class Level1State extends LevelState {
 		List<Bullet> bullets = this.getBullets();
 		int bulletSize = bullets.size();
 		
+		if (megaMan.firing) return true;
+		
 		for (int i = 0; i < bulletSize; i++) {
 			Bullet bullet = bullets.get(i);
 			if ((bullet.getX() > megaMan.getX() + megaMan.getWidth()) && 
@@ -481,6 +480,8 @@ public class Level1State extends LevelState {
 		MegaMan megaMan = this.getMegaMan();
 		List<BigBullet> bigBullets = this.getBigBullets();
 		int bigBulletSize = bigBullets.size();
+		
+		if (megaMan.firing) return true;
 		
 		for (int i = 0; i < bigBulletSize; i++) {
 			BigBullet bigBullet = bigBullets.get(i);
@@ -533,9 +534,9 @@ public class Level1State extends LevelState {
 	public void fireBullet() {
 	    int xPos = (megaMan.x + megaMan.width - Bullet.WIDTH / 2) + 2;
 	    int yPos = megaMan.y + megaMan.width / 2 - Bullet.HEIGHT + 2;
-	    
 	    Bullet bullet = new Bullet(xPos, yPos);
 	    if (megaMan.lookingLeft) bullet.movingLeft = true;
+	    megaMan.firing = true;
 	    bullets.add(bullet);
 	    this.getSoundManager().playBulletSound();
 	}
@@ -549,6 +550,7 @@ public class Level1State extends LevelState {
 		
 	    BigBullet  bigBullet = new BigBullet(xPos, yPos);
 	    if (megaMan.lookingLeft) bigBullet.movingLeft = true;
+	    megaMan.firing = true;
 		bigBullets.add(bigBullet);
 		this.getSoundManager().playBulletSound();
 	}

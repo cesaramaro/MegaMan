@@ -9,16 +9,12 @@ public class GameStatus {
 	
 	// status variables
 	private boolean newMegaMan;
-	private boolean newBoss;
 	private boolean newAsteroid;
-	private boolean newAsteroid2;
-	private boolean newBigAsteroid;
 	private long asteroidsDestroyed = 0;
 
 	private int livesLeft;
 	private int bossLivesLeft = 6;
 	private int level = 1;
-	private boolean newLives;
 	
 	public GameStatus() {}
 	
@@ -38,37 +34,29 @@ public class GameStatus {
 		return gameWon;
 	}
 	
+    /**
+     * Sets whether the game has the "You Win!!!" message displaying.
+     * @param if the game has ended and the "You Win!!!" message should display.
+     */
 	public synchronized void setGameWon(boolean gameWon) {
 		this.gameWon = gameWon;
 	}
 	
 	/**
 	 * Indicates if a new MegaMan should be created/drawn.
-	 * @return if a new life should be created/drawn
+	 * @return if a new megaMan should be created/drawn
 	 */
 	public synchronized boolean isNewMegaMan() {
 		return newMegaMan;
 	}
 
+	/**
+     * Sets whether a new MegaMan should be created/drawn.
+     * @param if a new megaMan should be created/drawn
+     */
 	public synchronized void setNewMegaMan(boolean newMegaMan) {
 		this.newMegaMan = newMegaMan;
-	}
-		
-	public synchronized boolean isNewBoss() {
-		return newBoss;
-	}
-
-	public synchronized void setNewBoss(boolean newBoss) {
-		this.newBoss = newBoss;
-	}
-
-	public synchronized boolean isNewBoss2() {
-		return newBoss;
-	}
-
-	public synchronized void setNewBoss2(boolean newBoss) {
-		this.newBoss = newBoss;
-	}
+	}	
 	
 	/**
 	 * Indicates if a new asteroid should be created/drawn.
@@ -77,29 +65,13 @@ public class GameStatus {
 	public synchronized boolean isNewAsteroid() {
 		return newAsteroid;
 	}
-
+	
+    /**
+     * Sets whether a new asteroid should be created/drawn.
+     * @param boolean if a new asteroid should be created/drawn
+     */
 	public synchronized void setNewAsteroid(boolean newAsteroid) {
 		this.newAsteroid = newAsteroid;
-	}
-	
-	public synchronized boolean isNewAsteroid2() {
-		return newAsteroid2;
-	}
-	
-	public synchronized void setNewAsteroid2(boolean newAsteroid2) {
-		this.newAsteroid2 = newAsteroid2;
-	}
-	
-	/**
-	 * Indicates if a new big asteroid should be created/drawn.
-	 * @return if a new big asteroid should be created/drawn
-	 */
-	public synchronized boolean isNewBigAsteroid() {
-		return newBigAsteroid;
-	}
-
-	public synchronized void setNewBigAsteroid(boolean newBigAsteroid) {
-		this.newBigAsteroid = newBigAsteroid;
 	}
 
 	/**
@@ -110,6 +82,11 @@ public class GameStatus {
 		return asteroidsDestroyed;
 	}
 
+	/*
+	 * Sets the number of asteroids destroyed
+	 * to the specified amount
+	 * @param long asteroidsDestroyed amount
+	 */
 	public synchronized void setAsteroidsDestroyed(long asteroidsDestroyed) {
 		this.asteroidsDestroyed = asteroidsDestroyed;
 	}
@@ -121,7 +98,12 @@ public class GameStatus {
 	public synchronized int getLivesLeft() {
 		return livesLeft;
 	}
-
+	
+    /*
+     * Sets MegaMan's lives left
+     * to the specified amount
+     * @param int number of lives to set
+     */
 	public synchronized void setLivesLeft(int livesLeft) {
 		this.livesLeft = livesLeft;
 	}
@@ -142,15 +124,19 @@ public class GameStatus {
 	    this.bossLivesLeft = bossLivesLeft;
 	}
 
+	/*
+	 * Gets the current level
+	 * @return int current level
+	 */
 	public int getLevel() {
 		return level;
 	}
 
+	/*
+	 * Sets the current level
+	 * @param int level to set
+	 */
 	public void setLevel(int level) {
 		this.level = level;
-	}
-
-	public void setNewLives(boolean newLives) {
-		this.newLives = newLives;
 	}
 }

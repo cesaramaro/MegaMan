@@ -41,7 +41,6 @@ public class Level3State extends Level1State {
     @Override
     public void updateScreen() {
         super.updateScreen();
-        
         movePlatforms();
         drawSecondAsteroid();
         checkBulletSecondAsteroidCollisions();
@@ -61,6 +60,11 @@ public class Level3State extends Level1State {
         }
     }
     
+    /*
+     * Method to create new platforms
+     * @param int amount of platforms to create
+     * @return Array of Platforms
+     */
     @Override
     public Platform[] newPlatforms(int n) {
         platforms = new Platform[n];
@@ -76,6 +80,7 @@ public class Level3State extends Level1State {
     
     /**
      * Create a new asteroid with a random speed
+     * @param Level1State screen
      */
     @Override
     public Asteroid newAsteroid(Level1State screen) {
@@ -90,6 +95,7 @@ public class Level3State extends Level1State {
     
     /*
      * Create a second asteroid
+     * @param Level1State screen
      */
     public Asteroid newSecondAsteroid(Level1State screen) {
         int xPos = (int) (SCREEN_WIDTH - Asteroid.WIDTH);
@@ -225,6 +231,7 @@ public class Level3State extends Level1State {
     
     /*
      * Remove the second Asteroid
+     * @param Asteroid to be removed
      */
     public void removeSecondAsteroid(Asteroid asteroid) {
         asteroidExplosion = new Rectangle(asteroid.x, asteroid.y,

@@ -13,9 +13,9 @@ public class MegaMan extends GameObject {
 	public static final int WIDTH = 42;
 	public static final int HEIGHT = 41;
 	public boolean lookingLeft = false;
-	//public static final int speed = DEFAULT_SPEED;
+	public boolean firing = false;
 	
-	public MegaMan(int xPos, int yPos){
+	public MegaMan(int xPos, int yPos) {
 		super(xPos, yPos, WIDTH, HEIGHT);
 		this.setSpeed(DEFAULT_SPEED);
 	}
@@ -23,13 +23,12 @@ public class MegaMan extends GameObject {
 	public int gtInitialYOffset() {
 		return Y_OFFSET;
 	}
-	
-	
+
 	/**
 	 * Returns the default ship speed.
 	 * @return the default ship speed
 	 */
-	public int getDefaultSpeed(){
+	public int getDefaultSpeed() {
 		return DEFAULT_SPEED;
 	}
 	

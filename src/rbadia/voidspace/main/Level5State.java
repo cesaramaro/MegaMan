@@ -81,6 +81,8 @@ public class Level5State extends Level4State {
     
     /**
      * Create a new boss
+     * @param Level5State screen
+     * @return Boss new boss
      */
     protected Boss newBoss(Level5State screen) {
         // Minus 20 so it's not located on the exact corner
@@ -105,7 +107,7 @@ public class Level5State extends Level4State {
     protected void moveBoss() {
         if (boss.getMinY() == 0) boss.goingDown = true;
         else if (boss.getMaxY() >= SCREEN_HEIGHT) boss.goingDown = false;
-        boss.translate(0, (boss.goingDown ? 2 : -2));
+        boss.translate(0, (boss.goingDown ? boss.getSpeed() : -boss.getSpeed()));
     }
     
     /*
@@ -168,7 +170,7 @@ public class Level5State extends Level4State {
             if (boss.intersects(bigBullet)) {
                 // Decrease boss' health
                 status.setBossLivesLeft(status.getBossLivesLeft() - 1);
-                bullets.remove(i);
+                bigBullets.remove(i);
                 break;
             }
         }
@@ -191,7 +193,7 @@ public class Level5State extends Level4State {
     protected void shootBossBullet() {
         int xPos = boss.x + boss.width - BossBullet.WIDTH / 2;
         int yPos = (boss.y + boss.width/2 - BossBullet.HEIGHT) + 10;
-        BossBullet bossBullet = new BossBullet(xPos, yPos + 10);
+        BossBullet bossBullet = new BossBullet(xPos, yPos + 10); // 10 so it's a bit lower
         bossBullets.add(bossBullet);
         this.getSoundManager().playBulletSound();
     }
@@ -211,7 +213,6 @@ public class Level5State extends Level4State {
             status.setLivesLeft(status.getLivesLeft() - 1);
             return true;
         }
-        
         if (bullet.getY() - bullet.getSpeed() >= 0) {
             bullet.translate(-bullet.getSpeed(), 0);
             return false;

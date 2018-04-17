@@ -9,14 +9,12 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import rbadia.voidspace.model.Asteroid;
-//import rbadia.voidspace.model.BigAsteroid;
 import rbadia.voidspace.model.BigBullet;
 import rbadia.voidspace.model.Boss;
 import rbadia.voidspace.model.Bullet;
 import rbadia.voidspace.model.Floor;
 import rbadia.voidspace.model.Lives;
 import rbadia.voidspace.model.BossBullet;
-//import rbadia.voidspace.model.BulletBoss2;
 import rbadia.voidspace.model.MegaMan;
 import rbadia.voidspace.model.Platform;
 
@@ -39,7 +37,6 @@ public class GraphicsManager {
 	private BufferedImage megaManExplosionImg;
 	private BufferedImage bigAsteroidExplosionImg;
 	private BufferedImage megaManBoss;
-	private BufferedImage megaManBossL;
 	private BufferedImage bossBulletImg;
     private BufferedImage livesImg;
 
@@ -62,7 +59,6 @@ public class GraphicsManager {
 			this.bulletImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/bullet.png"));
 			this.bigBulletImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/bigBullet.png"));
 			this.megaManBoss = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/megaManBoss.png"));
-			this.megaManBossL = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/megaManBossL.png"));
 	        this.bossBulletImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/bossBullet.png"));
 	        this.livesImg = ImageIO.read(getClass().getResource("/rbadia/voidspace/graphics/pixeledheart.png"));
 	        
@@ -76,29 +72,52 @@ public class GraphicsManager {
 
 	/**
 	 * Draws a MegaMan image to the specified graphics canvas.
-	 * @param MegaMan the ship to draw
+	 * @param MegaMan the image to draw
 	 * @param g2d the graphics canvas
 	 * @param observer object to be notified
 	 */
-
 	public void drawMegaMan(MegaMan megaMan, Graphics2D g2d, ImageObserver observer) {
 	    g2d.drawImage((megaMan.lookingLeft ? megaManImgL : megaManImg), megaMan.x, megaMan.y, observer);
 	}
 
+	/**
+	 * Draws a falling MegaMan image to the specified graphics canvas.
+	 * @param MegaMan the image to draw
+	 * @param g2d the graphics canvas
+	 * @param observer object to be notified
+	 */
 	public void drawMegaFall(MegaMan megaMan, Graphics2D g2d, ImageObserver observer) {
 	    g2d.drawImage((megaMan.lookingLeft ? megaFallLImg : megaFallRImg), megaMan.x, megaMan.y, observer);
 	}
 
+	/**
+	 * Draws a falling MegaMan image to the specified graphics canvas.
+	 * @param MegaMan the image to draw
+	 * @param g2d the graphics canvas
+	 * @param observer object to be notified
+	 */
 	public void drawMegaFire(MegaMan megaMan, Graphics2D g2d, ImageObserver observer) {
 	    g2d.drawImage((megaMan.lookingLeft ? megaFireLImg : megaFireRImg), megaMan.x, megaMan.y, observer);
 	}
 
+	/**
+	 * Draws a floor image to the specified graphics canvas.
+	 * @param Floor the floor to draw
+	 * @param g2d the graphics canvas
+	 * @param observer object to be notified
+	 */
 	public void drawFloor(Floor floor, Graphics2D g2d, ImageObserver observer, int i) {
-			g2d.drawImage(floorImg, floor.x, floor.y, observer);				
+	    g2d.drawImage(floorImg, floor.x, floor.y, observer);				
 	}
-	
+
+	/**
+	 * Draws a platform image to the specified graphics canvas.
+	 * @param Platform the platform to draw
+	 * @param g2d the graphics canvas
+	 * @param observer object to be notified
+	 */
 	public void drawPlatform(Platform platform, Graphics2D g2d, ImageObserver observer, int i) {
-			g2d.drawImage(platformImg, platform.x , platform.y, observer);	
+	    g2d.drawImage(platformImg, platform.x , platform.y, observer);	
 	}
 
     /**
@@ -108,7 +127,7 @@ public class GraphicsManager {
      * @param observer object to be notified
      */
 	public void drawBoss(Boss boss, Graphics2D g2d, ImageObserver observer) {
-	    g2d.drawImage((boss.lookingLeft ? megaManBossL : megaManBoss), boss.x, boss.y, observer);
+	    g2d.drawImage(megaManBoss, boss.x, boss.y, observer);
 	}
 	
 	 /**
@@ -171,6 +190,12 @@ public class GraphicsManager {
 		g2d.drawImage(asteroidExplosionImg, asteroidExplosion.x, asteroidExplosion.y, observer);
 	}
 
+	/**
+	 * Draws a big asteroid explosion image to the specified graphic canvas.
+	 * @param bigAsteroidExplosion the bounding rectangle of the explosion
+	 * @param g2d the graphic canvas
+	 * @param observer object to be notified
+	 */
 	public void drawBigAsteroidExplosion(Rectangle bigAsteroidExplosion, Graphics2D g2d, ImageObserver observer) {
 		g2d.drawImage(bigAsteroidExplosionImg, bigAsteroidExplosion.x, bigAsteroidExplosion.y, observer);
 	}
